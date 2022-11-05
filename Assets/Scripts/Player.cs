@@ -2,52 +2,52 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Player : MonoBehaviour
+public class Player : Creature
 {
-    [SerializeField] private float speed;
-    [SerializeField] private float jumpForce;
-    Rigidbody2D rb;
+    [SerializeField] private float jumpForce = 4f;
     [SerializeField] private bool isGround = false;
+    [SerializeField] private float _dashForce;
+    private float _timer;
+    [SerializeField] private float _dashCoolDown;
 
-    private void Start()
+    private void OnCollisionEnter2D(Collision2D collision)
     {
-        rb = GetComponent<Rigidbody2D> ();
-    }
-
-    private void OnTriggerEnter2D(Collider2D other)
-    {
-        if (other.tag == "Floor")
-        {
             isGround = true;
-            print("Проверка");
-        }
     }
-    private void OnTriggerExit2D(Collider2D other)
+    private void OnCollisionExit2D(Collision2D collision)
     {
-        if (other.tag == "Floor")
             isGround = false;
     }
 
-    void Update()
+    private void FixedUpdate()
     {
-         if (Input.GetKey(KeyCode.D))
+        Move();
+        Dash();
+        jump();
+    }
+
+     protected override void Move()
+    {
+        if (Input.GetKey(KeyCode.D))
         {
-            transform.Translate(transform.right * speed * Time.deltaTime);
+            transform.Translate(transform.right * _movementSpeed * Time.deltaTime);
         }
         if (Input.GetKey(KeyCode.A))
         {
-            transform.Translate(-transform.right * speed * Time.deltaTime);
+            transform.Translate(-transform.right * _movementSpeed * Time.deltaTime);
         }
-        if (Input.GetKey(KeyCode.Space) && isGround)
-        {
-            rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
-        }
-
-
     }
 
-    
+    private void jump()
+    {
+        if (Input.GetKey(KeyCode.Space) && isGround)
+        {
+            rb.AddForce((Vector2.up * jumpForce), ForceMode2D.Impulse);
+        }
+    }
 
-
-
+    protected void Dash()
+    {
+        
+    }
 }
