@@ -42,3 +42,15 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: BG
+    uniqueID: 1898217591
+    locked: 0
+  - name: Player
+    uniqueID: 1419250047
+    locked: 0
+  - name: Platforms
+    uniqueID: 2224926311
+    locked: 0
+  - name: Floor
+    uniqueID: 2074226461
+    locked: 0
