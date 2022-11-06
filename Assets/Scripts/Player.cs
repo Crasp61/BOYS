@@ -5,8 +5,9 @@ using UnityEngine;
 
 public class Player : Creature
 {
-    [SerializeField] private float jumpForce = 4f;
-    [SerializeField] private bool isGround = false;
+    [SerializeField] Transform GroundCheck;
+    [SerializeField] LayerMask _groundLayer;
+    [SerializeField] private float _jumpForce = 4f;
     private float _horizontal;
     private bool _isFacingRight = true;
     
@@ -23,7 +24,7 @@ public class Player : Creature
         {
             StartCoroutine(Dash()); 
         }
-
+        jump();
         Flip();
     }
 
@@ -33,7 +34,6 @@ public class Player : Creature
         {
             return;
         }
-        jump();
         FixedMove();
     }
 
@@ -46,19 +46,22 @@ public class Player : Creature
     {
         rb.velocity = new Vector2(_horizontal * _movementSpeed, rb.velocity.y);
     }
-    private void OnCollisionEnter2D(Collision2D collision)
+
+    private bool IsGrounded()
     {
-        isGround = true;
+        return Physics2D.OverlapCircle(GroundCheck.position, 0.2f, _groundLayer);
     }
-    private void OnCollisionExit2D(Collision2D collision)
-    {
-        isGround = false;
-    }
+
     private void jump()
     {
-        if (Input.GetKey(KeyCode.Space) && isGround)
+        if (Input.GetKeyDown(KeyCode.Space) && IsGrounded())
         {
-            rb.AddForce((Vector2.up * jumpForce), ForceMode2D.Impulse);
+            rb.velocity = new Vector2(rb.velocity.x, _jumpForce);
+        }
+
+        if (Input.GetKeyDown(KeyCode.Space) && rb.velocity.y > 0f)
+        {
+            rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y * 0.5f);
         }
     }
 
