@@ -14,6 +14,4 @@ public abstract class Creature : MonoBehaviour
     {
         
     }
-
-    protected abstract void Move();
 }
