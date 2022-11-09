@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class Scroll : MonoBehaviour
 {
@@ -22,7 +24,8 @@ public class Scroll : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (IsMiddleleftGrounded() || IsMiddleRightGrounded() || IsDownleftGrounded() || IsDownRightGrounded() || IsHightleftGrounded() || IsHightRightGrounded())
+        if (IsGr(LeftMiddleGroundCheck, 0.05f, _groundLayer) || IsGr(RightMiddleGroundCheck, 0.05f, _groundLayer) || IsGr(LeftDownGroundCheck, 0.05f, _groundLayer) ||
+          IsGr(RightDownGroundCheck, 0.05f, _groundLayer) || IsGr(LeftHightGroundCheck, 0.05f, _groundLayer) || IsGr(RightHightGroundCheck, 0.05f, _groundLayer))
         {
             rb.velocity = new Vector2(_horizontal * _speed * 0, rb.velocity.y);
         }
@@ -31,29 +34,11 @@ public class Scroll : MonoBehaviour
             rb.velocity = new Vector2(_horizontal * _speed * -1, rb.velocity.y);
         }
     }
-    private bool IsMiddleleftGrounded()
+    private bool IsGr(Transform transform, float rad, LayerMask layer)
     {
-        return Physics2D.OverlapCircle(LeftMiddleGroundCheck.position, 0.05f, _groundLayer);
+        return Physics2D.OverlapCircle(transform.position, rad, layer);
     }
-    private bool IsMiddleRightGrounded()
-    {
-        return Physics2D.OverlapCircle(RightMiddleGroundCheck.position, 0.05f, _groundLayer);
-    }
-    private bool IsDownleftGrounded()
-    {
-        return Physics2D.OverlapCircle(LeftDownGroundCheck.position, 0.05f, _groundLayer);
-    }
-    private bool IsDownRightGrounded()
-    {
-        return Physics2D.OverlapCircle(RightDownGroundCheck.position, 0.05f, _groundLayer);
-    }
-    private bool IsHightleftGrounded()
-    {
-        return Physics2D.OverlapCircle(LeftHightGroundCheck.position, 0.05f, _groundLayer);
-    }
-    private bool IsHightRightGrounded()
-    {
-        return Physics2D.OverlapCircle(RightHightGroundCheck.position, 0.05f, _groundLayer);
-    }
+   
 }
+
 

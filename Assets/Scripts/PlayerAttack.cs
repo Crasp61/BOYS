@@ -12,7 +12,7 @@ public class PlayerAttack : MonoBehaviour
 
     [SerializeField] private int _playerDamage = 5;
     [SerializeField] private float _attackRange;
-
+   
     private void Update()
     {
         attack();
