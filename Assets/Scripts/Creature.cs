@@ -6,10 +6,9 @@ using UnityEngine;
 public abstract class Creature : MonoBehaviour
 {
     [SerializeField] protected float _movementSpeed = 4f;
-    [SerializeField] protected int _maxHealth = 30;
-    [SerializeField] protected int _damage = 5;
+    [SerializeField] public int _maxHealth;
     [SerializeField] protected Rigidbody2D rb;
-    protected int _curentHealth;
+    [HideInInspector]public int _curentHealth;
     
     protected virtual void Start()
     {
@@ -23,4 +22,9 @@ public abstract class Creature : MonoBehaviour
             Destroy(gameObject);
         }
     }
+}
+
+public class Enemy : Creature
+{
+    [SerializeField] public int _damage;
 }

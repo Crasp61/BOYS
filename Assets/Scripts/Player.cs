@@ -5,21 +5,21 @@ using UnityEngine;
 
 public class Player : Creature
 {
-    protected float _horizontal;
+    private float _horizontal;                                                 //Вот здесь начинается Всё что связано с передвижением(бег,Рвывок,Прыжок)
     private bool _isFacingRight = true;
 
-    private bool _canDash = true;
+    private bool _canDash = true;  //Вот этот отдел : переменные для рывка
     private bool _isDashing;
     [SerializeField] private float _dashingPower = 24f;
     [SerializeField] private float _dashingTime = 0.2f;
     [SerializeField] private float _dashingCoolDown = 1f;
     [SerializeField] private TrailRenderer tr;
+
+    [SerializeField] private float _jumpForce = 4f; //переменные для прыжка
     [SerializeField] Transform GroundCheck;
     [SerializeField] LayerMask _groundLayer;
-    [SerializeField] private float _jumpForce = 4f;
 
-
-    private void Update()
+    private void Update()                                                          
     {
         if (_isDashing)
         {
@@ -32,9 +32,11 @@ public class Player : Creature
         {
             StartCoroutine(Dash());
         }
+
         jump();
+
         Flip();
-        _ghostTimer -= Time.deltaTime;
+
     }
 
     private void FixedUpdate()
@@ -46,24 +48,21 @@ public class Player : Creature
         FixedMove();
     }
 
-    protected void Move()
+    protected void Move()                                                               //Методы движения
     {
         _horizontal = Input.GetAxisRaw("Horizontal");
     }
-
     private void FixedMove()
     {
 
         rb.velocity = new Vector2(_horizontal * _movementSpeed, rb.velocity.y);
     }
 
-    private bool IsGrounded()
+
+    private bool IsGrounded()                                                           //Методы прыжка
     {
         return Physics2D.OverlapCircle(GroundCheck.position, 0.2f, _groundLayer);
     }
-
-
-
     private void jump()
     {
         if (Input.GetKeyDown(KeyCode.Space) && IsGrounded())
@@ -78,7 +77,7 @@ public class Player : Creature
     }
 
 
-    private IEnumerator Dash()
+    private IEnumerator Dash()                                                          //Методы рывка
     {
         _canDash = false;
         _isDashing = true;
@@ -94,7 +93,7 @@ public class Player : Creature
         _canDash = true;
     }
 
-    private void Flip()
+    private void Flip()                                                                 //метод поворота персонажа(по большей части для рывка)
     {
         if (_isFacingRight && _horizontal < 0f || !_isFacingRight && _horizontal > 0f)
         {
@@ -107,15 +106,4 @@ public class Player : Creature
         }
     }
 
-    private float _ghostHitCoolDown=1;
-    private float _ghostTimer;
-    private int _ghostDamage=5;
-    private void OnTriggerStay2D(Collider2D collider)
-    {
-        if (collider.gameObject.GetComponent<GhostEnemy>() && _ghostTimer <= 0)
-        {
-            TakeDamage(_ghostDamage);
-            _ghostTimer = _ghostHitCoolDown;
-        }
-    }
 }

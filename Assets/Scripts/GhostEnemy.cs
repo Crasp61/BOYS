@@ -5,7 +5,7 @@ using Unity.VisualScripting;
 using UnityEditor.UIElements;
 using UnityEngine;
 
-public class GhostEnemy : Creature
+public class GhostEnemy : Enemy
 {
     Transform _target;
 
@@ -18,8 +18,5 @@ public class GhostEnemy : Creature
     {
         
     }
-
-
-    
 }
 

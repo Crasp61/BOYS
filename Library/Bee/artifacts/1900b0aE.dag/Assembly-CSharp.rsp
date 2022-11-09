@@ -376,8 +376,10 @@
 -r:"Library/Bee/artifacts/1900b0aE.dag/UnityEngine.UI.ref.dll"
 "Assets/MoveBackGround.cs"
 "Assets/Scripts/Creature.cs"
+"Assets/Scripts/EnemyAttack.cs"
 "Assets/Scripts/GhostEnemy.cs"
 "Assets/Scripts/Player.cs"
+"Assets/Scripts/PlayerAttack.cs"
 "Assets/Scripts/Scroll.cs"
 -langversion:9.0
 
