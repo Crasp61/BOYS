@@ -9,10 +9,6 @@ public class GhostEnemy : Enemy
 {
     Transform _target;
 
-    protected override void Start()
-    {
-        _target = GameObject.FindGameObjectWithTag("Player").transform;
-    }
 
     private void Update()
     {

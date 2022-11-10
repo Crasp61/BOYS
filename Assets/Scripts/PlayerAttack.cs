@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,7 +8,7 @@ public class PlayerAttack : MonoBehaviour
     [SerializeField] Transform _enemyCheck;
     [SerializeField] LayerMask _enemyLayer;
 
-    private float _hitCoolDown = 1f;
+    private float _hitCoolDown = 0.4f;
     private float _CDtimer;
 
     [SerializeField] private int _playerDamage = 5;
@@ -15,17 +16,21 @@ public class PlayerAttack : MonoBehaviour
    
     private void Update()
     {
-        attack();
+        Attack();
     }
 
-    public void attack()
+    public void Attack()
     {
         if (_CDtimer <= 0)
         {
             if (Input.GetMouseButton(0))
             {
-                Collider2D enemies = Physics2D.OverlapCircle(_enemyCheck.position, _attackRange, _enemyLayer);
-                enemies.gameObject.GetComponent<Enemy>().TakeDamage(_playerDamage);
+                Collider2D[] enemies = Physics2D.OverlapCircleAll(_enemyCheck.position, _attackRange, _enemyLayer);
+                for (int i = 0; i < enemies.Length; i++)
+                {
+                    enemies[i].gameObject.GetComponent<Enemy>().TakeDamage(_playerDamage);
+                    Console.WriteLine("hello");
+                }
                 _CDtimer = _hitCoolDown;
             }
         }
