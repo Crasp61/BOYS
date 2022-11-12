@@ -3,10 +3,20 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
+using Unity.PlasticSCM.Editor.WebApi;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerAttack : MonoBehaviour
 {
+    private List<Weapon> weapon = new List<Weapon>() { new Axe(1f, 20, 0.8f), new Sword(0.5f, 12, 0.43f), new Dagger(0.3f, 8, 0.3f) };
+    public List<GameObject> curentWeapon =  new List<GameObject>();
+
+
+    
+    [SerializeField] private GameObject _axeGameObject;
+    [SerializeField] private GameObject _swordGameObject;
+    [SerializeField] private GameObject _daggerGameObject;
     Collider2D _equipedWeapon = null;
     [SerializeField] Transform _weaponSpawn;
 
@@ -22,21 +32,32 @@ public class PlayerAttack : MonoBehaviour
     private string _tagOfWeapon;
     private string _tagOfEquipedWeapon;
 
-    private float _axeCD = 1f;
-    private int _axeDamage = 20;
-    private float _axeAttackRange = 0.8f;
-
-    private float _swordCD = 0.5f;
-    private int _swordDamage = 12;
-    private float _swordAttackRange = 0.43f;
-
-    private float _daggerCD = 0.3f;
-    private int _daggerDamage = 8;
-    private float _daggerAttackRange = 0.3f;
+    
 
     private void Update()
     {
         Attack();
+        if (curentWeapon != null)
+        {
+            if (Input.GetKeyDown(KeyCode.E) && (curentWeapon[0].gameObject.tag != "Sword" || curentWeapon[0].gameObject.tag != "Dagger"  || curentWeapon[0].gameObject.tag == null))
+            {
+                SetCharateristics(weapon[0].WeaponCD, weapon[0].WeaponDamage, weapon[0].WeaponAttackrange);
+                
+                Destroy(GameObject.FindGameObjectWithTag("Axe"));
+            }
+            if (Input.GetKeyDown(KeyCode.E) && (curentWeapon[0].gameObject.tag != "Axe" || curentWeapon[0].gameObject.tag != "Dagger" || curentWeapon[0].gameObject.tag == null))
+            {
+                SetCharateristics(weapon[1].WeaponCD, weapon[1].WeaponDamage, weapon[1].WeaponAttackrange);
+
+                Destroy(GameObject.FindGameObjectWithTag("Sword"));
+            }           
+            if (Input.GetKeyDown(KeyCode.E) && (curentWeapon[0].gameObject.tag != "Sword" || curentWeapon[0].gameObject.tag != "Axe" || curentWeapon[0].gameObject.tag == null))
+            {
+                SetCharateristics(weapon[2].WeaponCD, weapon[2].WeaponDamage, weapon[2].WeaponAttackrange);
+                
+                Destroy(GameObject.FindGameObjectWithTag("Dagger"));
+            }
+        }
     }
 
     public void Attack()
@@ -60,7 +81,7 @@ public class PlayerAttack : MonoBehaviour
         }
     }
 
-    public void SetCharateristics(int damage, float range, float CD)
+    public void SetCharateristics(float CD, int damage , float range)
     {
             _hitCoolDown = CD;
             _playerDamage = damage;
@@ -72,32 +93,39 @@ public class PlayerAttack : MonoBehaviour
         Gizmos.DrawWireSphere(_enemyCheck.position, _attackRange);
     }
     
-    public void OnTriggerStay2D(Collider2D collider)
+    public void OnTriggerStay2D(Collider2D other)
     {
-        _tagOfWeapon = collider.gameObject.tag;
-        if (_tagOfWeapon == "Axe")
+        
+        if (other.gameObject.tag == "Axe")
         {
-            if (Input.GetKey(KeyCode.E))
-            {
-                SetCharateristics(_axeDamage, _axeAttackRange, _axeCD);
-                Destroy(collider.gameObject);
-            }
+                curentWeapon.Clear();
+                curentWeapon.Add(_axeGameObject);
+            
         }
-        if (_tagOfWeapon == "Sword")
+        if (other.gameObject.tag == "Sword")
         {
-            if (Input.GetKey(KeyCode.E))
-            {
-                SetCharateristics(_swordDamage, _swordAttackRange, _swordCD);
-                Destroy(collider.gameObject);
-            }
+            curentWeapon.Clear();
+            curentWeapon.Add(_swordGameObject);
         }
-        if (_tagOfWeapon == "Dagger")
+        if (other.gameObject.tag == "Dagger")
         {
-            if (Input.GetKey(KeyCode.E))
-            {
-                SetCharateristics(_daggerDamage, _daggerAttackRange, _daggerCD);
-                Destroy(collider.gameObject);
-            }
+            curentWeapon.Clear();
+            curentWeapon.Add(_daggerGameObject);
+        }
+    }
+    public void OnTriggerExit2D(Collider2D other)
+    {
+        if (other.gameObject.tag == "Axe")
+        {
+            curentWeapon.Clear();
+        }
+        if (other.gameObject.tag == "Sword")
+        {
+            curentWeapon.Clear();
+        }
+        if (other.gameObject.tag == "Dagger")
+        {
+            curentWeapon.Clear();
         }
     }
 }
