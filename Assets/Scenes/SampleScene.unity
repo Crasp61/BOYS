@@ -1817,7 +1817,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 098b2fdd6178c814dbad1c2a9f0190a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  curentWeapon: []
+  equipedWeapon: []
   _axeGameObject: {fileID: 8715576898080969404, guid: 3f47119dc57e4254a8a924bf76015806, type: 3}
   _swordGameObject: {fileID: 5597305725520310895, guid: 2e0fa0391da83354c89d90029c3f0bf5, type: 3}
   _daggerGameObject: {fileID: 8737071219587114796, guid: d8ff475b77b662f4c8394200d0ce1bb5, type: 3}
@@ -1989,7 +1989,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8715576898080969406, guid: 3f47119dc57e4254a8a924bf76015806, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -2.77
+      value: -2.05
       objectReference: {fileID: 0}
     - target: {fileID: 8715576898080969406, guid: 3f47119dc57e4254a8a924bf76015806, type: 3}
       propertyPath: m_LocalPosition.z

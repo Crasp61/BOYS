@@ -10,14 +10,13 @@ using UnityEngine;
 public class PlayerAttack : MonoBehaviour
 {
     private List<Weapon> weapon = new List<Weapon>() { new Axe(1f, 20, 0.8f), new Sword(0.5f, 12, 0.43f), new Dagger(0.3f, 8, 0.3f) };
-    public List<GameObject> curentWeapon =  new List<GameObject>();
+    public List<GameObject> equipedWeapon = new List<GameObject>() {null } ;
 
-
+    private string _weaponToTakeTag = null;
     
     [SerializeField] private GameObject _axeGameObject;
     [SerializeField] private GameObject _swordGameObject;
     [SerializeField] private GameObject _daggerGameObject;
-    Collider2D _equipedWeapon = null;
     [SerializeField] Transform _weaponSpawn;
 
     [SerializeField] Transform _enemyCheck;
@@ -29,33 +28,46 @@ public class PlayerAttack : MonoBehaviour
     [SerializeField] private int _playerDamage = 5;
     [SerializeField] private float _attackRange = 0.43f;
 
-    private string _tagOfWeapon;
-    private string _tagOfEquipedWeapon;
-
-    
-
     private void Update()
     {
         Attack();
-        if (curentWeapon != null)
+        if (_weaponToTakeTag != null)
         {
-            if (Input.GetKeyDown(KeyCode.E) && (curentWeapon[0].gameObject.tag != "Sword" || curentWeapon[0].gameObject.tag != "Dagger"  || curentWeapon[0].gameObject.tag == null))
+            if (Input.GetKeyDown(KeyCode.E))
             {
-                SetCharateristics(weapon[0].WeaponCD, weapon[0].WeaponDamage, weapon[0].WeaponAttackrange);
-                
-                Destroy(GameObject.FindGameObjectWithTag("Axe"));
-            }
-            if (Input.GetKeyDown(KeyCode.E) && (curentWeapon[0].gameObject.tag != "Axe" || curentWeapon[0].gameObject.tag != "Dagger" || curentWeapon[0].gameObject.tag == null))
-            {
-                SetCharateristics(weapon[1].WeaponCD, weapon[1].WeaponDamage, weapon[1].WeaponAttackrange);
-
-                Destroy(GameObject.FindGameObjectWithTag("Sword"));
-            }           
-            if (Input.GetKeyDown(KeyCode.E) && (curentWeapon[0].gameObject.tag != "Sword" || curentWeapon[0].gameObject.tag != "Axe" || curentWeapon[0].gameObject.tag == null))
-            {
-                SetCharateristics(weapon[2].WeaponCD, weapon[2].WeaponDamage, weapon[2].WeaponAttackrange);
-                
-                Destroy(GameObject.FindGameObjectWithTag("Dagger"));
+                if (_weaponToTakeTag == "Axe")
+                {
+                    SetCharateristics(weapon[0].WeaponCD, weapon[0].WeaponDamage, weapon[0].WeaponAttackrange);
+                    if (equipedWeapon.Count >0)
+                    {
+                        Instantiate(equipedWeapon[0], _weaponSpawn.position, _weaponSpawn.rotation);
+                    }
+                    equipedWeapon.Clear();
+                    equipedWeapon.Add(_axeGameObject);
+                    Destroy(GameObject.FindGameObjectWithTag("Axe"));
+                }
+                if (_weaponToTakeTag == "Sword")
+                {
+                    SetCharateristics(weapon[1].WeaponCD, weapon[1].WeaponDamage, weapon[1].WeaponAttackrange);
+                    if (equipedWeapon.Count > 0)
+                    {
+                        Instantiate(equipedWeapon[0], _weaponSpawn.position, _weaponSpawn.rotation);
+                    }
+                    equipedWeapon.Clear();
+                    equipedWeapon.Add(_swordGameObject);
+                    Destroy(GameObject.FindGameObjectWithTag("Sword"));
+                }
+                if (_weaponToTakeTag == "Dagger")
+                {
+                    SetCharateristics(weapon[2].WeaponCD, weapon[2].WeaponDamage, weapon[2].WeaponAttackrange);
+                    if(equipedWeapon.Count > 0a)
+                    {
+                        Instantiate(equipedWeapon[0], _weaponSpawn.position, _weaponSpawn.rotation);
+                    }
+                    equipedWeapon.Clear();
+                    equipedWeapon.Add(_daggerGameObject);
+                    Destroy(GameObject.FindGameObjectWithTag("Dagger"));
+                }
             }
         }
     }
@@ -93,39 +105,12 @@ public class PlayerAttack : MonoBehaviour
         Gizmos.DrawWireSphere(_enemyCheck.position, _attackRange);
     }
     
-    public void OnTriggerStay2D(Collider2D other)
+    public void OnTriggerEnter2D(Collider2D other)
     {
-        
-        if (other.gameObject.tag == "Axe")
-        {
-                curentWeapon.Clear();
-                curentWeapon.Add(_axeGameObject);
-            
-        }
-        if (other.gameObject.tag == "Sword")
-        {
-            curentWeapon.Clear();
-            curentWeapon.Add(_swordGameObject);
-        }
-        if (other.gameObject.tag == "Dagger")
-        {
-            curentWeapon.Clear();
-            curentWeapon.Add(_daggerGameObject);
-        }
+        _weaponToTakeTag = other.gameObject.tag;
     }
     public void OnTriggerExit2D(Collider2D other)
     {
-        if (other.gameObject.tag == "Axe")
-        {
-            curentWeapon.Clear();
-        }
-        if (other.gameObject.tag == "Sword")
-        {
-            curentWeapon.Clear();
-        }
-        if (other.gameObject.tag == "Dagger")
-        {
-            curentWeapon.Clear();
-        }
+        _weaponToTakeTag = null;
     }
 }
