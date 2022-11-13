@@ -5,8 +5,8 @@ using UnityEngine;
 
 public abstract class Creature : MonoBehaviour
 {
-    [SerializeField] protected float _movementSpeed = 4f;
-    [SerializeField] public int _maxHealth;
+    [SerializeField] protected float _movementSpeed;
+    [SerializeField] protected int _maxHealth;
     [SerializeField] protected Rigidbody2D rb;
     [HideInInspector]public int _curentHealth;
     

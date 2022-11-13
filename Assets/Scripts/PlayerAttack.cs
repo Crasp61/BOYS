@@ -31,6 +31,31 @@ public class PlayerAttack : MonoBehaviour
     private void Update()
     {
         Attack();
+        ChangeWeapons();
+    }
+
+    public void Attack()
+    {
+        if (_CDtimer <= 0)
+        {
+            if (Input.GetMouseButton(0))
+            {
+                Collider2D[] enemies = Physics2D.OverlapCircleAll(_enemyCheck.position, _attackRange, _enemyLayer);
+                for (int i = 0; i < enemies.Length; i++)
+                {
+                    enemies[i].gameObject.GetComponent<Enemy>().TakeDamage(_playerDamage);
+                }
+                _CDtimer = _hitCoolDown;
+            }
+        }
+        else
+        {
+            _CDtimer -= Time.deltaTime;
+        }
+    }
+
+    public void ChangeWeapons()
+    {
         if (_weaponToTakeTag != null)
         {
             if (Input.GetKeyDown(KeyCode.E))
@@ -38,7 +63,7 @@ public class PlayerAttack : MonoBehaviour
                 if (_weaponToTakeTag == "Axe")
                 {
                     SetCharateristics(weapon[0].WeaponCD, weapon[0].WeaponDamage, weapon[0].WeaponAttackrange);
-                    if (equipedWeapon.Count >0)
+                    if (equipedWeapon.Count > 0)
                     {
                         Instantiate(equipedWeapon[0], _weaponSpawn.position, _weaponSpawn.rotation);
                     }
@@ -60,7 +85,7 @@ public class PlayerAttack : MonoBehaviour
                 if (_weaponToTakeTag == "Dagger")
                 {
                     SetCharateristics(weapon[2].WeaponCD, weapon[2].WeaponDamage, weapon[2].WeaponAttackrange);
-                    if(equipedWeapon.Count > 0a)
+                    if (equipedWeapon.Count > 0)
                     {
                         Instantiate(equipedWeapon[0], _weaponSpawn.position, _weaponSpawn.rotation);
                     }
@@ -69,27 +94,6 @@ public class PlayerAttack : MonoBehaviour
                     Destroy(GameObject.FindGameObjectWithTag("Dagger"));
                 }
             }
-        }
-    }
-
-    public void Attack()
-    {
-        if (_CDtimer <= 0)
-        {
-            if (Input.GetMouseButton(0))
-            {
-                Collider2D[] enemies = Physics2D.OverlapCircleAll(_enemyCheck.position, _attackRange, _enemyLayer);
-                for (int i = 0; i < enemies.Length; i++)
-                {
-                    enemies[i].gameObject.GetComponent<Enemy>().TakeDamage(_playerDamage);
-                    Console.WriteLine("hello");
-                }
-                _CDtimer = _hitCoolDown;
-            }
-        }
-        else
-        {
-            _CDtimer -= Time.deltaTime;
         }
     }
 
