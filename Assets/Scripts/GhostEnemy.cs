@@ -2,86 +2,44 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using Unity.VisualScripting;
+using Unity.VisualScripting.Antlr3.Runtime;
 using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.Animations;
 
 public class GhostEnemy : Enemy
 {
-    [SerializeField] Transform _playerPos;
-    [SerializeField] Transform _enemyPos;
+    private Transform _target;
     [SerializeField] LayerMask _playerLayer;
-    [SerializeField] private float _detectRange;
-    private bool playerToTheRight = false;
-    private bool playerToTheLeft = false;
-    private bool playerLower = false;
-    private bool playerHigher = false;
+    [SerializeField] Transform _enemyPos;
+    [SerializeField] float _rangeOfDetection;
 
-    private bool _playerDetectedMark = false;
+    protected override void Start()
+    {
+        base.Start();
+        _target = GameObject.FindGameObjectWithTag("Player").transform;
+    }
     private void Update()
     {
-        if(_enemyPos.position.x > _playerPos.position.x)
+        if (PlayerIsClose())
         {
-            playerToTheLeft = true;
-            playerToTheRight = false;
-        }
-        if(_enemyPos.position.x < _playerPos.position.x)
-        {
-            playerToTheLeft = false;
-            playerToTheRight = true;
-        }
-        if (_enemyPos.position.y > _playerPos.position.y)
-        {
-            playerLower = true;
-            playerHigher = false;
-        }
-        if (_enemyPos.position.y < _playerPos.position.y)
-        {
-            playerLower = false;
-            playerHigher = true;
+            Move();
+            SetAngle(_target.position);
         }
     }
 
-    private void FixedUpdate()
+    protected void Move()
     {
-        if (PlayerClose()) 
-        {
-            _playerDetectedMark = true; 
-        }
-        if(_playerDetectedMark)
-        {
-            _movementSpeed = 1f;
-            if (playerToTheLeft)
-            {
-                rb.velocity = new Vector2(_movementSpeed * -1, rb.velocity.y);
-
-            }
-            if (playerToTheRight)
-            {
-                rb.velocity = new Vector2(_movementSpeed, rb.velocity.y);
-            }
-            if (playerLower)
-            {
-                rb.velocity = new Vector2(rb.velocity.x, _movementSpeed * -1);
-            }
-            if (playerHigher)
-            {
-                rb.velocity = new Vector2(rb.velocity.x, _movementSpeed);
-            }
-        }
-        else
-        {
-            _movementSpeed = 0f;
-        }
+        transform.Translate(Vector2.down * _movementSpeed * Time.deltaTime);
     }
-    private bool PlayerClose()
+    
+    private bool PlayerIsClose()
     {
-        return Physics2D.OverlapCircle(_enemyPos.position, _detectRange, _playerLayer);
+        return Physics2D.OverlapCircle(_enemyPos.position, _rangeOfDetection, _playerLayer);
     }
-
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.yellow;
-        Gizmos.DrawWireSphere(_enemyPos.position, _detectRange);
+        Gizmos.DrawWireSphere(_enemyPos.position, _rangeOfDetection);
     }
 }
