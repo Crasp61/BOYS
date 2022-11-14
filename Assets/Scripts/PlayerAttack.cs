@@ -10,17 +10,23 @@ using UnityEngine;
 public class PlayerAttack : MonoBehaviour
 {
     private List<Weapon> weapon = new List<Weapon>() { new Axe(1f, 20, 0.8f), new Sword(0.5f, 12, 0.43f), new Dagger(0.3f, 8, 0.3f) };
-    public List<GameObject> equipedWeapon = new List<GameObject>() {null } ;
+    private List<GameObject> equipedWeapon = new List<GameObject>() { } ;
 
-    private string _weaponToTakeTag = null;
+    private string _meeleWeaponToTakeTag = null;
     
     [SerializeField] private GameObject _axeGameObject;
     [SerializeField] private GameObject _swordGameObject;
     [SerializeField] private GameObject _daggerGameObject;
-    [SerializeField] Transform _weaponSpawn;
+    [SerializeField] private Transform _weaponSpawn;
 
-    [SerializeField] Transform _enemyCheck;
-    [SerializeField] LayerMask _enemyLayer;
+    public int _bowDamage = 10;
+    [SerializeField] private GameObject _arrow;
+    [SerializeField] private Transform _pointToshoot;
+    private float _timeToReload = 1f;
+    private float _bowTimer;
+
+    [SerializeField] private Transform _enemyCheck;
+    [SerializeField] private LayerMask _enemyLayer;
 
     private float _hitCoolDown = 0.5f;
     private float _CDtimer;
@@ -30,11 +36,24 @@ public class PlayerAttack : MonoBehaviour
 
     private void Update()
     {
-        Attack();
+        MeeleAttack();
         ChangeWeapons();
+        RangeAttack();
     }
 
-    public void Attack()
+    public void RangeAttack()
+    {
+        if (_bowTimer <=0 && Input.GetMouseButtonDown(1))
+        {
+            Instantiate(_arrow, _pointToshoot.position, _pointToshoot.rotation);
+            _bowTimer = _timeToReload;
+        }
+        else
+        {
+            _bowTimer -= Time.deltaTime;
+        }
+    }
+    public void MeeleAttack()
     {
         if (_CDtimer <= 0)
         {
@@ -56,11 +75,11 @@ public class PlayerAttack : MonoBehaviour
 
     public void ChangeWeapons()
     {
-        if (_weaponToTakeTag != null)
+        if (_meeleWeaponToTakeTag != null)
         {
             if (Input.GetKeyDown(KeyCode.E))
             {
-                if (_weaponToTakeTag == "Axe")
+                if (_meeleWeaponToTakeTag == "Axe")
                 {
                     SetCharateristics(weapon[0].WeaponCD, weapon[0].WeaponDamage, weapon[0].WeaponAttackrange);
                     if (equipedWeapon.Count > 0)
@@ -71,7 +90,7 @@ public class PlayerAttack : MonoBehaviour
                     equipedWeapon.Add(_axeGameObject);
                     Destroy(GameObject.FindGameObjectWithTag("Axe"));
                 }
-                if (_weaponToTakeTag == "Sword")
+                if (_meeleWeaponToTakeTag == "Sword")
                 {
                     SetCharateristics(weapon[1].WeaponCD, weapon[1].WeaponDamage, weapon[1].WeaponAttackrange);
                     if (equipedWeapon.Count > 0)
@@ -82,7 +101,7 @@ public class PlayerAttack : MonoBehaviour
                     equipedWeapon.Add(_swordGameObject);
                     Destroy(GameObject.FindGameObjectWithTag("Sword"));
                 }
-                if (_weaponToTakeTag == "Dagger")
+                if (_meeleWeaponToTakeTag == "Dagger")
                 {
                     SetCharateristics(weapon[2].WeaponCD, weapon[2].WeaponDamage, weapon[2].WeaponAttackrange);
                     if (equipedWeapon.Count > 0)
@@ -111,10 +130,10 @@ public class PlayerAttack : MonoBehaviour
     
     public void OnTriggerEnter2D(Collider2D other)
     {
-        _weaponToTakeTag = other.gameObject.tag;
+            _meeleWeaponToTakeTag = other.gameObject.tag;
     }
     public void OnTriggerExit2D(Collider2D other)
     {
-        _weaponToTakeTag = null;
+            _meeleWeaponToTakeTag = null;
     }
 }

@@ -8,6 +8,7 @@ TagManager:
   - Axe
   - Dagger
   - Sword
+  - Enemy
   layers:
   - Default
   - TransparentFX
@@ -17,7 +18,7 @@ TagManager:
   - UI
   - Enemy
   - Player
-  - 
+  - MeeleWeapon
   - 
   - 
   - 

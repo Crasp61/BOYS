@@ -63,6 +63,7 @@
     <Compile Include="Assets\Scripts\Weapon.cs" />
     <Compile Include="Assets\Scripts\Creature.cs" />
     <Compile Include="Assets\Scripts\PlayerAttack.cs" />
+    <Compile Include="Assets\Scripts\Arrow.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">
