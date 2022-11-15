@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Weapon : MonoBehaviour
+public class MeeleWeapon : MonoBehaviour
 {
-    public  Weapon (float cd, int damage, float range)
+    public  MeeleWeapon (float cd, int damage, float range)
     {
         WeaponCD = cd;
         WeaponDamage = damage;
@@ -17,7 +17,7 @@ public class Weapon : MonoBehaviour
 
 }
 
-public class Axe: Weapon
+public class Axe: MeeleWeapon
 { 
     public Axe (float cd, int damage, float range): base (cd,damage,range)
     {
@@ -25,7 +25,7 @@ public class Axe: Weapon
     }
 }
 
-public class Sword: Weapon
+public class Sword: MeeleWeapon
 {
     public Sword(float cd, int damage, float range) : base(cd, damage, range)
     {
@@ -35,7 +35,7 @@ public class Sword: Weapon
 
 }
 
-public class Dagger : Weapon
+public class Dagger : MeeleWeapon
 {
     public Dagger(float cd, int damage, float range) : base(cd, damage, range)
     {

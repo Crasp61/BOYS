@@ -9,17 +9,23 @@ using UnityEngine;
 
 public class PlayerAttack : MonoBehaviour
 {
-    private List<Weapon> weapon = new List<Weapon>() { new Axe(1f, 20, 0.8f), new Sword(0.5f, 12, 0.43f), new Dagger(0.3f, 8, 0.3f) };
-    private List<GameObject> equipedWeapon = new List<GameObject>() { } ;
+    private List<MeeleWeapon> meeleWeapon = new List<MeeleWeapon>() { new Axe(1f, 20, 0.8f), new Sword(0.5f, 12, 0.43f), new Dagger(0.3f, 8, 0.3f) };
+    private List<GameObject> equipedMeeleWeapon = new List<GameObject>() { };
+    private List<RangeWeapon> rangeWeapon = new List<RangeWeapon>() { new LongBow(1.5f, 12, 12, 0.1f, 4), new ShortBow(1, 6, 8, 0.1f, 12), new ClassicBow(1.25f, 8, 10f, 0.1f, 8)};
+    [SerializeField] private List<GameObject> equipedRangeWeapon = new List<GameObject>() { };
 
-    private string _meeleWeaponToTakeTag = null;
+    private string _WeaponToTakeTag = null;
     
     [SerializeField] private GameObject _axeGameObject;
     [SerializeField] private GameObject _swordGameObject;
     [SerializeField] private GameObject _daggerGameObject;
     [SerializeField] private Transform _weaponSpawn;
 
-    public static int _bowDamage = 8;
+    [SerializeField] private GameObject _longBowGameObject;
+    [SerializeField] private GameObject _shortBowGameObject;
+    [SerializeField] private GameObject _classicBowGameObject;
+
+    
 
     [SerializeField] private GameObject _arrow;
     [SerializeField] private Transform _pointToshootRight;
@@ -45,21 +51,24 @@ public class PlayerAttack : MonoBehaviour
 
     public void RangeAttack()
     {
-        if (_bowTimer <=0 && Input.GetMouseButtonDown(1))
+        if (equipedRangeWeapon.Count > 0)
         {
-            if (Player._isFacingRight)
+            if (_bowTimer <= 0 && Input.GetMouseButtonDown(1))
             {
-                Instantiate(_arrow, _pointToshootRight.position, _pointToshootRight.rotation);
+                if (Player._isFacingRight)
+                {
+                    Instantiate(_arrow, _pointToshootRight.position, _pointToshootRight.rotation);
+                }
+                if (Player._isFacingRight == false)
+                {
+                    Instantiate(_arrow, _pointToshootLeft.position, _pointToshootLeft.rotation);
+                }
+                _bowTimer = _timeToReload;
             }
-            if (Player._isFacingRight == false)
+            else
             {
-                Instantiate(_arrow, _pointToshootLeft.position, _pointToshootLeft.rotation);
+                _bowTimer -= Time.deltaTime;
             }
-            _bowTimer = _timeToReload;
-        }
-        else
-        {
-            _bowTimer -= Time.deltaTime;
         }
     }
     public void MeeleAttack()
@@ -84,45 +93,84 @@ public class PlayerAttack : MonoBehaviour
 
     public void ChangeWeapons()
     {
-        if (_meeleWeaponToTakeTag != null)
+        if (_WeaponToTakeTag != null)
         {
             if (Input.GetKeyDown(KeyCode.E))
             {
-                if (_meeleWeaponToTakeTag == "Axe")
+                if (_WeaponToTakeTag == "Axe")
                 {
-                    SetCharateristics(weapon[0].WeaponCD, weapon[0].WeaponDamage, weapon[0].WeaponAttackrange);
-                    if (equipedWeapon.Count > 0)
+                    SetCharateristics(meeleWeapon[0].WeaponCD, meeleWeapon[0].WeaponDamage, meeleWeapon[0].WeaponAttackrange);
+                    if (equipedMeeleWeapon.Count > 0)
                     {
-                        Instantiate(equipedWeapon[0], _weaponSpawn.position, _weaponSpawn.rotation);
+                        Instantiate(equipedMeeleWeapon[0], _weaponSpawn.position, _weaponSpawn.rotation);
                     }
-                    equipedWeapon.Clear();
-                    equipedWeapon.Add(_axeGameObject);
+                    equipedMeeleWeapon.Clear();
+                    equipedMeeleWeapon.Add(_axeGameObject);
                     Destroy(GameObject.FindGameObjectWithTag("Axe"));
                 }
-                if (_meeleWeaponToTakeTag == "Sword")
+                if (_WeaponToTakeTag == "Sword")
                 {
-                    SetCharateristics(weapon[1].WeaponCD, weapon[1].WeaponDamage, weapon[1].WeaponAttackrange);
-                    if (equipedWeapon.Count > 0)
+                    SetCharateristics(meeleWeapon[1].WeaponCD, meeleWeapon[1].WeaponDamage, meeleWeapon[1].WeaponAttackrange);
+                    if (equipedMeeleWeapon.Count > 0)
                     {
-                        Instantiate(equipedWeapon[0], _weaponSpawn.position, _weaponSpawn.rotation);
+                        Instantiate(equipedMeeleWeapon[0], _weaponSpawn.position, _weaponSpawn.rotation);
                     }
-                    equipedWeapon.Clear();
-                    equipedWeapon.Add(_swordGameObject);
+                    equipedMeeleWeapon.Clear();
+                    equipedMeeleWeapon.Add(_swordGameObject);
                     Destroy(GameObject.FindGameObjectWithTag("Sword"));
                 }
-                if (_meeleWeaponToTakeTag == "Dagger")
+                if (_WeaponToTakeTag == "Dagger")
                 {
-                    SetCharateristics(weapon[2].WeaponCD, weapon[2].WeaponDamage, weapon[2].WeaponAttackrange);
-                    if (equipedWeapon.Count > 0)
+                    SetCharateristics(meeleWeapon[2].WeaponCD, meeleWeapon[2].WeaponDamage, meeleWeapon[2].WeaponAttackrange);
+                    if (equipedMeeleWeapon.Count > 0)
                     {
-                        Instantiate(equipedWeapon[0], _weaponSpawn.position, _weaponSpawn.rotation);
+                        Instantiate(equipedMeeleWeapon[0], _weaponSpawn.position, _weaponSpawn.rotation);
                     }
-                    equipedWeapon.Clear();
-                    equipedWeapon.Add(_daggerGameObject);
+                    equipedMeeleWeapon.Clear();
+                    equipedMeeleWeapon.Add(_daggerGameObject);
                     Destroy(GameObject.FindGameObjectWithTag("Dagger"));
+                }
+                if (_WeaponToTakeTag == "LongBow")
+                {
+                    SetCharateristics(rangeWeapon[0].WeaponCD, rangeWeapon[0].WeaponDamage, rangeWeapon[0].MovementSpeed, rangeWeapon[0].DistanseToRb, rangeWeapon[0].ArrowCount);
+                    if (equipedRangeWeapon.Count > 0)
+                    {
+                        Instantiate(equipedRangeWeapon[0], _weaponSpawn.position, _weaponSpawn.rotation);
+                    }
+                    equipedRangeWeapon.Clear();
+                    equipedRangeWeapon.Add(_longBowGameObject);
+                    Destroy(GameObject.FindGameObjectWithTag("LongBow"));
+                }
+                if (_WeaponToTakeTag == "ShortBow")
+                {
+                    SetCharateristics(rangeWeapon[1].WeaponCD, rangeWeapon[1].WeaponDamage, rangeWeapon[1].MovementSpeed, rangeWeapon[1].DistanseToRb, rangeWeapon[1].ArrowCount);
+                    if (equipedRangeWeapon.Count > 0)
+                    {
+                        Instantiate(equipedRangeWeapon[0], _weaponSpawn.position, _weaponSpawn.rotation);
+                    }
+                    equipedRangeWeapon.Clear();
+                    equipedRangeWeapon.Add(_shortBowGameObject);
+                    Destroy(GameObject.FindGameObjectWithTag("ShortBow"));
+                }
+                if (_WeaponToTakeTag == "ClassicBow")
+                {
+                    SetCharateristics(rangeWeapon[2].WeaponCD, rangeWeapon[2].WeaponDamage, rangeWeapon[2].MovementSpeed, rangeWeapon[2].DistanseToRb, rangeWeapon[2].ArrowCount);
+                    if (equipedRangeWeapon.Count > 0)
+                    {
+                        Instantiate(equipedRangeWeapon[0], _weaponSpawn.position, _weaponSpawn.rotation);
+                    }
+                    equipedRangeWeapon.Clear();
+                    equipedRangeWeapon.Add(_classicBowGameObject);
+                    Destroy(GameObject.FindGameObjectWithTag("ClassicBow"));
                 }
             }
         }
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere(_enemyCheck.position, _attackRange);
     }
 
     public void SetCharateristics(float CD, int damage , float range)
@@ -131,18 +179,29 @@ public class PlayerAttack : MonoBehaviour
             _playerDamage = damage;
             _attackRange = range;
     }
-    private void OnDrawGizmosSelected()
-    {
-        Gizmos.color = Color.yellow;
-        Gizmos.DrawWireSphere(_enemyCheck.position, _attackRange);
-    }
+    
 
     public void OnTriggerEnter2D(Collider2D other)
     {
-        _meeleWeaponToTakeTag = other.gameObject.tag;
+        _WeaponToTakeTag = other.gameObject.tag;
     }
     public void OnTriggerExit2D(Collider2D other)
     {
-        _meeleWeaponToTakeTag = null;
+        _WeaponToTakeTag = null;
+    }
+    private float _bowCd;
+    public static int _bowDamage;
+    public static float arrowMovementSpeed;
+    public static float arrowDistanceToRb;
+    private int arrowCount;
+    public void SetCharateristics(float cd, int damage, float movementSpeed, float distanceToRb, int Count)
+    {
+        _bowCd = cd;
+        _bowDamage = damage;
+        arrowMovementSpeed = movementSpeed;
+        arrowDistanceToRb = distanceToRb;
+        arrowCount = Count;
+        
     }
 }
+

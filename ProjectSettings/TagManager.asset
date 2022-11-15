@@ -9,6 +9,9 @@ TagManager:
   - Dagger
   - Sword
   - Enemy
+  - LongBow
+  - ShortBow
+  - ClassicBow
   layers:
   - Default
   - TransparentFX

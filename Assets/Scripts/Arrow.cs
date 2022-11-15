@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class Arrow : MonoBehaviour
 {
-    [SerializeField] private int _speed;
+    private float _speed;
     private int _damage;
 
 
@@ -13,6 +13,7 @@ public class Arrow : MonoBehaviour
     {
         transform.Translate(Vector2.right * _speed * Time.deltaTime);
         _damage = PlayerAttack._bowDamage;
+        _speed = PlayerAttack.arrowMovementSpeed;
     }
 
     private void OnTriggerEnter2D(Collider2D other)
