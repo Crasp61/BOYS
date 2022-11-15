@@ -19,9 +19,11 @@ public class PlayerAttack : MonoBehaviour
     [SerializeField] private GameObject _daggerGameObject;
     [SerializeField] private Transform _weaponSpawn;
 
-    public int _bowDamage = 10;
+    public static int _bowDamage = 8;
+
     [SerializeField] private GameObject _arrow;
-    [SerializeField] private Transform _pointToshoot;
+    [SerializeField] private Transform _pointToshootRight;
+    [SerializeField] private Transform _pointToshootLeft;
     private float _timeToReload = 1f;
     private float _bowTimer;
 
@@ -45,7 +47,14 @@ public class PlayerAttack : MonoBehaviour
     {
         if (_bowTimer <=0 && Input.GetMouseButtonDown(1))
         {
-            Instantiate(_arrow, _pointToshoot.position, _pointToshoot.rotation);
+            if (Player._isFacingRight)
+            {
+                Instantiate(_arrow, _pointToshootRight.position, _pointToshootRight.rotation);
+            }
+            if (Player._isFacingRight == false)
+            {
+                Instantiate(_arrow, _pointToshootLeft.position, _pointToshootLeft.rotation);
+            }
             _bowTimer = _timeToReload;
         }
         else
@@ -127,13 +136,13 @@ public class PlayerAttack : MonoBehaviour
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(_enemyCheck.position, _attackRange);
     }
-    
+
     public void OnTriggerEnter2D(Collider2D other)
     {
-            _meeleWeaponToTakeTag = other.gameObject.tag;
+        _meeleWeaponToTakeTag = other.gameObject.tag;
     }
     public void OnTriggerExit2D(Collider2D other)
     {
-            _meeleWeaponToTakeTag = null;
+        _meeleWeaponToTakeTag = null;
     }
 }

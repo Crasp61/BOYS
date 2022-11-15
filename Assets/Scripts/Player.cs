@@ -7,7 +7,7 @@ using UnityEngine;
 public class Player : Creature
 {
     private float _horizontal;                                                 //Вот здесь начинается Всё что связано с передвижением(бег,Рвывок,Прыжок)
-    private bool _isFacingRight = true;
+    public static bool _isFacingRight = true;
 
     private bool _canDash = true;  //Вот этот отдел : переменные для рывка
     private bool _isDashing;
