@@ -9,37 +9,51 @@ using UnityEngine.Animations;
 
 public class GhostEnemy : Enemy
 {
-    private Transform _target;
+    
     [SerializeField] LayerMask _playerLayer;
     [SerializeField] Transform _enemyPos;
     [SerializeField] float _rangeOfDetection;
+    public Transform _playerPosition;
+    public Transform _pointEnemyBase;
+    [SerializeField] private float _agroDistance;
+
 
     protected override void Start()
     {
-        base.Start();
-        _target = GameObject.FindGameObjectWithTag("Player").transform;
+        base.Start();  
     }
     private void Update()
     {
-        if (PlayerIsClose())
+        
+        float distToPlayer = Vector2.Distance(transform.position, _playerPosition.position);
+
+        if (distToPlayer < _agroDistance)
         {
-            Move();
-            SetAngle(_target.position);
+            StartHunting();
+        }
+        else
+        {
+            StopHuntingAndBack();
         }
     }
-
-    protected void Move()
-    {
-        transform.Translate(Vector2.down * _movementSpeed * Time.deltaTime);
-    }
     
-    private bool PlayerIsClose()
+   
+    public void StartHunting()
     {
-        return Physics2D.OverlapCircle(_enemyPos.position, _rangeOfDetection, _playerLayer);
+        transform.position = Vector3.MoveTowards(transform.position, _playerPosition.position, _movementSpeed * Time.deltaTime);
+        if (transform.position.x > _playerPosition.position.x)
+        {
+            transform.localScale = new Vector2(0.1f, 0.1f);
+        }
+        else
+        {
+            transform.localScale = new Vector2(-0.1f, 0.1f);
+        }
     }
-    private void OnDrawGizmosSelected()
+    public void StopHuntingAndBack()
     {
-        Gizmos.color = Color.yellow;
-        Gizmos.DrawWireSphere(_enemyPos.position, _rangeOfDetection);
+        transform.position = Vector3.MoveTowards(transform.position, _pointEnemyBase.position, _movementSpeed * Time.deltaTime);
+
     }
 }
+

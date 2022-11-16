@@ -30,7 +30,7 @@ public class PlayerAttack : MonoBehaviour
     [SerializeField] private GameObject _arrow;
     [SerializeField] private Transform _pointToshootRight;
     [SerializeField] private Transform _pointToshootLeft;
-    private float _timeToReload = 1f;
+    private float _timeToReload = 0.2f;
     private float _bowTimer;
 
     [SerializeField] private Transform _enemyCheck;
