@@ -30,8 +30,11 @@ public class PlayerAttack : MonoBehaviour
     [SerializeField] private GameObject _arrow;
     [SerializeField] private Transform _pointToshootRight;
     [SerializeField] private Transform _pointToshootLeft;
-    private float _timeToReload = 0.2f;
+    private float _timeToCd = 0.2f;
     private float _bowTimer;
+    private int _arrowCount = 5;
+    private float _timeToReload;
+
 
     [SerializeField] private Transform _enemyCheck;
     [SerializeField] private LayerMask _enemyLayer;
@@ -42,33 +45,56 @@ public class PlayerAttack : MonoBehaviour
     [SerializeField] private int _playerDamage = 5;
     [SerializeField] private float _attackRange = 0.43f;
 
+   
     private void Update()
     {
         MeeleAttack();
         ChangeWeapons();
         RangeAttack();
+        if  (_arrowCount == 5)
+        {
+            _timeToReload = 1f;
+        }
     }
 
     public void RangeAttack()
     {
         if (equipedRangeWeapon.Count > 0)
         {
-            if (_bowTimer <= 0 && Input.GetMouseButtonDown(1))
+            if (_arrowCount > 0)
             {
-                if (Player._isFacingRight)
+                if (_bowTimer <= 0 && Input.GetMouseButtonDown(1))
                 {
-                    Instantiate(_arrow, _pointToshootRight.position, _pointToshootRight.rotation);
+
+                    if (Player._isFacingRight)
+                    {
+                        Instantiate(_arrow, _pointToshootRight.position, _pointToshootRight.rotation);
+                    }
+                    if (Player._isFacingRight == false)
+                    {
+                        Instantiate(_arrow, _pointToshootLeft.position, _pointToshootLeft.rotation);
+                    }
+                    _arrowCount--;
+                    _bowTimer = _timeToCd;
                 }
-                if (Player._isFacingRight == false)
+                else
                 {
-                    Instantiate(_arrow, _pointToshootLeft.position, _pointToshootLeft.rotation);
+                    _bowTimer -= Time.deltaTime;
                 }
-                _bowTimer = _timeToReload;
+            }
+            if (_timeToReload <= 0)
+            {
+                if (_arrowCount < 5)
+                {
+                    _arrowCount++;
+                    _timeToReload = 1f;
+                }
             }
             else
             {
-                _bowTimer -= Time.deltaTime;
+                _timeToReload -= Time.deltaTime;
             }
+            
         }
     }
     public void MeeleAttack()
