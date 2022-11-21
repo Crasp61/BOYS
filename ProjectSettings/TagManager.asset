@@ -70,7 +70,7 @@ TagManager:
   - name: Player
     uniqueID: 1419250047
     locked: 0
-  - name: Platforms
+  - name: GmObjects
     uniqueID: 2224926311
     locked: 0
   - name: Floor

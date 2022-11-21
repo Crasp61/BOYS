@@ -62,11 +62,11 @@
     <Compile Include="Assets\Scripts\GhostEnemy.cs" />
     <Compile Include="Assets\Scripts\EnemyAttack.cs" />
     <Compile Include="Assets\Scripts\Background_Smoke_Animation.cs" />
+    <Compile Include="Assets\Scripts\MoveBG.cs" />
     <Compile Include="Assets\Scripts\Player.cs" />
     <Compile Include="Assets\Scripts\Weapon.cs" />
     <Compile Include="Assets\Scripts\Creature.cs" />
     <Compile Include="Assets\Scripts\PlayerAttack.cs" />
-    <Compile Include="Assets\Scripts\MoveBG.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">
