@@ -67,6 +67,10 @@
     <Compile Include="Assets\Scripts\Weapon.cs" />
     <Compile Include="Assets\Scripts\Creature.cs" />
     <Compile Include="Assets\Scripts\PlayerAttack.cs" />
+    <Compile Include="Assets\Scripts\MeeleEnemy.cs" />
+    <Compile Include="Assets\Scripts\GameManager.cs" />
+    <Compile Include="Assets\Scripts\SaveSerial.cs" />
+    <Compile Include="Assets\Scripts\SceneChanger.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">

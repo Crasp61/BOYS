@@ -14,6 +14,18 @@ public class EnemyAttack : MonoBehaviour
     {
         _timerAfterAttack -= Time.deltaTime;
     }
+    public void OnCollisionEnter2D(Collision2D other)
+    {
+        if (other.gameObject.GetComponent<Player>() != null)
+        {
+
+            if (_timerAfterAttack <= 0)
+            {
+                other.gameObject.GetComponent<Player>().TakeDamage(gameObject.GetComponent<MeeleEnemy>()._damage);
+                _timerAfterAttack = 1;
+            }
+        }
+    }
     public void OnTriggerEnter2D(Collider2D other)
     {
         if (other.gameObject.GetComponent<Player>() != null)

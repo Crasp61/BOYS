@@ -1,4 +1,5 @@
 using JetBrains.Annotations;
+using Microsoft.Win32.SafeHandles;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -13,8 +14,12 @@ public class PlayerAttack : MonoBehaviour
     private List<GameObject> equipedMeeleWeapon = new List<GameObject>() { };
     private List<RangeWeapon> rangeWeapon = new List<RangeWeapon>() { new LongBow(1.5f, 12, 12, 0.1f, 4), new ShortBow(1, 6, 8, 0.1f, 12), new ClassicBow(1.25f, 8, 10f, 0.1f, 8)};
     [SerializeField] private List<GameObject> equipedRangeWeapon = new List<GameObject>() { };
+    
 
     private string _WeaponToTakeTag = null;
+
+    public int _equipedMeeleWeaponNumber;
+    public int _equipedRangeWeaponNumber;
     
     [SerializeField] private GameObject _axeGameObject;
     [SerializeField] private GameObject _swordGameObject;
@@ -39,11 +44,16 @@ public class PlayerAttack : MonoBehaviour
     [SerializeField] private Transform _enemyCheck;
     [SerializeField] private LayerMask _enemyLayer;
 
+
     private float _hitCoolDown = 0.5f;
     private float _CDtimer;
-
     [SerializeField] private int _playerDamage = 5;
     [SerializeField] private float _attackRange = 0.43f;
+
+    private bool _swordMode = false;
+    private bool _daggerMode = false;
+    private bool _axeMode = false ;
+
 
    
     private void Update()
@@ -106,9 +116,15 @@ public class PlayerAttack : MonoBehaviour
                 Collider2D[] enemies = Physics2D.OverlapCircleAll(_enemyCheck.position, _attackRange, _enemyLayer);
                 for (int i = 0; i < enemies.Length; i++)
                 {
-                    enemies[i].gameObject.GetComponent<Enemy>().TakeDamage(_playerDamage);
+                    if (_daggerMode == false && _axeMode == false && _swordMode == false)
+                        enemies[i].gameObject.GetComponent<Enemy>().TakeDamage(_playerDamage);
+                    if (_swordMode)
+                        enemies[i].gameObject.GetComponent<Enemy>().CriticalChanceMode(_playerDamage);
+                    if (_daggerMode)
+                        enemies[i].gameObject.GetComponent<Enemy>().Bleeding(_playerDamage);
                 }
                 _CDtimer = _hitCoolDown;
+                
             }
         }
         else
@@ -125,6 +141,9 @@ public class PlayerAttack : MonoBehaviour
             {
                 if (_WeaponToTakeTag == "Axe")
                 {
+                    _axeMode = true;
+                    _swordMode = false;
+                    _daggerMode = false;
                     SetCharateristics(meeleWeapon[0].WeaponCD, meeleWeapon[0].WeaponDamage, meeleWeapon[0].WeaponAttackrange);
                     if (equipedMeeleWeapon.Count > 0)
                     {
@@ -136,6 +155,9 @@ public class PlayerAttack : MonoBehaviour
                 }
                 if (_WeaponToTakeTag == "Sword")
                 {
+                    _axeMode = false;
+                    _swordMode = true;
+                    _daggerMode = false;
                     SetCharateristics(meeleWeapon[1].WeaponCD, meeleWeapon[1].WeaponDamage, meeleWeapon[1].WeaponAttackrange);
                     if (equipedMeeleWeapon.Count > 0)
                     {
@@ -147,6 +169,9 @@ public class PlayerAttack : MonoBehaviour
                 }
                 if (_WeaponToTakeTag == "Dagger")
                 {
+                    _axeMode = false;
+                    _swordMode = false;
+                    _daggerMode = true;
                     SetCharateristics(meeleWeapon[2].WeaponCD, meeleWeapon[2].WeaponDamage, meeleWeapon[2].WeaponAttackrange);
                     if (equipedMeeleWeapon.Count > 0)
                     {
@@ -205,7 +230,8 @@ public class PlayerAttack : MonoBehaviour
             _playerDamage = damage;
             _attackRange = range;
     }
-    
+
+
 
     public void OnTriggerEnter2D(Collider2D other)
     {

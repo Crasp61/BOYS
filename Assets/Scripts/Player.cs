@@ -20,8 +20,11 @@ public class Player : Creature
     [SerializeField] Transform GroundCheck;
     [SerializeField] LayerMask _groundLayer;
 
-   
 
+    public void Awake()
+    {
+        DontDestroyOnLoad(gameObject);
+    }
     private void Update()                                                          
     {
         if (_isDashing)
