@@ -3104,6 +3104,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 098b2fdd6178c814dbad1c2a9f0190a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  meeleWeapon:
+  - {fileID: 11400000, guid: 3e862e4b449d00a48a077905ee01a21d, type: 2}
+  - {fileID: 11400000, guid: 8eb0d6dc629b42d4dae04e1af5037e5a, type: 2}
+  - {fileID: 11400000, guid: 6644a76cc56ac6642b3e99129193bf4d, type: 2}
+  rangeWeapon:
+  - {fileID: 11400000, guid: 4c8e0ca3871b03b4db6271ad75ccb5ec, type: 2}
+  - {fileID: 11400000, guid: f1d1aeec98bfe684dbaca0a2d058f509, type: 2}
+  - {fileID: 11400000, guid: 0289f7bfc7d3adc4a8b98c8c5a3752ee, type: 2}
   equipedRangeWeapon: []
   _equipedMeeleWeaponNumber: 0
   _equipedRangeWeaponNumber: 0

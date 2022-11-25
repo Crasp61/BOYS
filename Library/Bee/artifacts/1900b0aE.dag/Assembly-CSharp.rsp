@@ -381,6 +381,7 @@
 "Assets/Scripts/GameManager.cs"
 "Assets/Scripts/GhostEnemy.cs"
 "Assets/Scripts/MeeleEnemy.cs"
+"Assets/Scripts/MeeleWeapon.cs"
 "Assets/Scripts/MoveBG.cs"
 "Assets/Scripts/Player.cs"
 "Assets/Scripts/PlayerAttack.cs"
@@ -388,7 +389,6 @@
 "Assets/Scripts/SaveSerial.cs"
 "Assets/Scripts/SceneChanger.cs"
 "Assets/Scripts/Scroll.cs"
-"Assets/Scripts/Weapon.cs"
 -langversion:9.0
 
 /deterministic

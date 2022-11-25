@@ -10,11 +10,13 @@ using UnityEngine;
 
 public class PlayerAttack : MonoBehaviour
 {
-    private List<MeeleWeapon> meeleWeapon = new List<MeeleWeapon>() { new Axe(1f, 20, 0.8f), new Sword(0.5f, 12, 0.43f), new Dagger(0.3f, 8, 0.3f) };
+    [SerializeField] private List<MeeleWeapon> meeleWeapon;
     private List<GameObject> equipedMeeleWeapon = new List<GameObject>() { };
-    private List<RangeWeapon> rangeWeapon = new List<RangeWeapon>() { new LongBow(1.5f, 12, 12, 0.1f, 4), new ShortBow(1, 6, 8, 0.1f, 12), new ClassicBow(1.25f, 8, 10f, 0.1f, 8)};
+    [SerializeField] private List<RangeWeapon> rangeWeapon;
+   // private List<RangeWeapon> rangeWeapon = new List<RangeWeapon>() { new LongBow(1.5f, 12, 12, 0.1f, 4), new ShortBow(1, 6, 8, 0.1f, 12), new ClassicBow(1.25f, 8, 10f, 0.1f, 8) };
     [SerializeField] private List<GameObject> equipedRangeWeapon = new List<GameObject>() { };
-    
+
+
 
     private string _WeaponToTakeTag = null;
 
@@ -55,7 +57,6 @@ public class PlayerAttack : MonoBehaviour
     private bool _axeMode = false ;
 
 
-   
     private void Update()
     {
         MeeleAttack();
@@ -133,7 +134,7 @@ public class PlayerAttack : MonoBehaviour
         }
     }
 
-    public void ChangeWeapons()
+   public void ChangeWeapons()
     {
         if (_WeaponToTakeTag != null)
         {
@@ -144,7 +145,7 @@ public class PlayerAttack : MonoBehaviour
                     _axeMode = true;
                     _swordMode = false;
                     _daggerMode = false;
-                    SetCharateristics(meeleWeapon[0].WeaponCD, meeleWeapon[0].WeaponDamage, meeleWeapon[0].WeaponAttackrange);
+                    SetCharateristics(meeleWeapon[0].MeeleWeaponDamage, meeleWeapon[0].MeeleWeaponCD, meeleWeapon[0].MeeleWeaponAttackRange);
                     if (equipedMeeleWeapon.Count > 0)
                     {
                         Instantiate(equipedMeeleWeapon[0], _weaponSpawn.position, _weaponSpawn.rotation);
@@ -158,7 +159,7 @@ public class PlayerAttack : MonoBehaviour
                     _axeMode = false;
                     _swordMode = true;
                     _daggerMode = false;
-                    SetCharateristics(meeleWeapon[1].WeaponCD, meeleWeapon[1].WeaponDamage, meeleWeapon[1].WeaponAttackrange);
+                    SetCharateristics(meeleWeapon[1].MeeleWeaponDamage, meeleWeapon[1].MeeleWeaponCD, meeleWeapon[1].MeeleWeaponAttackRange);
                     if (equipedMeeleWeapon.Count > 0)
                     {
                         Instantiate(equipedMeeleWeapon[0], _weaponSpawn.position, _weaponSpawn.rotation);
@@ -172,7 +173,7 @@ public class PlayerAttack : MonoBehaviour
                     _axeMode = false;
                     _swordMode = false;
                     _daggerMode = true;
-                    SetCharateristics(meeleWeapon[2].WeaponCD, meeleWeapon[2].WeaponDamage, meeleWeapon[2].WeaponAttackrange);
+                    SetCharateristics(meeleWeapon[2].MeeleWeaponDamage, meeleWeapon[2].MeeleWeaponCD, meeleWeapon[2].MeeleWeaponAttackRange);
                     if (equipedMeeleWeapon.Count > 0)
                     {
                         Instantiate(equipedMeeleWeapon[0], _weaponSpawn.position, _weaponSpawn.rotation);
@@ -183,7 +184,7 @@ public class PlayerAttack : MonoBehaviour
                 }
                 if (_WeaponToTakeTag == "LongBow")
                 {
-                    SetCharateristics(rangeWeapon[0].WeaponCD, rangeWeapon[0].WeaponDamage, rangeWeapon[0].MovementSpeed, rangeWeapon[0].DistanseToRb, rangeWeapon[0].ArrowCount);
+                    SetCharateristics(rangeWeapon[0].RangeWeaponDamage, rangeWeapon[0].RangeWeaponCD, rangeWeapon[0].RangeWeaponMovementSpeed, rangeWeapon[0].RangeWeaponDistanceToRB, rangeWeapon[0].RangeWeaponArrowCount);
                     if (equipedRangeWeapon.Count > 0)
                     {
                         Instantiate(equipedRangeWeapon[0], _weaponSpawn.position, _weaponSpawn.rotation);
@@ -194,7 +195,7 @@ public class PlayerAttack : MonoBehaviour
                 }
                 if (_WeaponToTakeTag == "ShortBow")
                 {
-                    SetCharateristics(rangeWeapon[1].WeaponCD, rangeWeapon[1].WeaponDamage, rangeWeapon[1].MovementSpeed, rangeWeapon[1].DistanseToRb, rangeWeapon[1].ArrowCount);
+                    SetCharateristics(rangeWeapon[1].RangeWeaponDamage, rangeWeapon[1].RangeWeaponCD, rangeWeapon[1].RangeWeaponMovementSpeed, rangeWeapon[1].RangeWeaponDistanceToRB, rangeWeapon[1].RangeWeaponArrowCount);
                     if (equipedRangeWeapon.Count > 0)
                     {
                         Instantiate(equipedRangeWeapon[0], _weaponSpawn.position, _weaponSpawn.rotation);
@@ -205,7 +206,7 @@ public class PlayerAttack : MonoBehaviour
                 }
                 if (_WeaponToTakeTag == "ClassicBow")
                 {
-                    SetCharateristics(rangeWeapon[2].WeaponCD, rangeWeapon[2].WeaponDamage, rangeWeapon[2].MovementSpeed, rangeWeapon[2].DistanseToRb, rangeWeapon[2].ArrowCount);
+                    SetCharateristics(rangeWeapon[2].RangeWeaponDamage, rangeWeapon[2].RangeWeaponCD, rangeWeapon[2].RangeWeaponMovementSpeed, rangeWeapon[2].RangeWeaponDistanceToRB, rangeWeapon[2].RangeWeaponArrowCount);
                     if (equipedRangeWeapon.Count > 0)
                     {
                         Instantiate(equipedRangeWeapon[0], _weaponSpawn.position, _weaponSpawn.rotation);
@@ -224,7 +225,7 @@ public class PlayerAttack : MonoBehaviour
         Gizmos.DrawWireSphere(_enemyCheck.position, _attackRange);
     }
 
-    public void SetCharateristics(float CD, int damage , float range)
+    public void SetCharateristics(int damage, float CD, float range)
     {
             _hitCoolDown = CD;
             _playerDamage = damage;
@@ -246,7 +247,7 @@ public class PlayerAttack : MonoBehaviour
     public static float arrowMovementSpeed;
     public static float arrowDistanceToRb;
     private int arrowCount;
-    public void SetCharateristics(float cd, int damage, float movementSpeed, float distanceToRb, int Count)
+    public void SetCharateristics(int damage, float cd, float movementSpeed, float distanceToRb, int Count)
     {
         _bowCd = cd;
         _bowDamage = damage;
