@@ -13,7 +13,6 @@ public class PlayerAttack : MonoBehaviour
     [SerializeField] private List<MeeleWeapon> meeleWeapon;
     private List<GameObject> equipedMeeleWeapon = new List<GameObject>() { };
     [SerializeField] private List<RangeWeapon> rangeWeapon;
-   // private List<RangeWeapon> rangeWeapon = new List<RangeWeapon>() { new LongBow(1.5f, 12, 12, 0.1f, 4), new ShortBow(1, 6, 8, 0.1f, 12), new ClassicBow(1.25f, 8, 10f, 0.1f, 8) };
     [SerializeField] private List<GameObject> equipedRangeWeapon = new List<GameObject>() { };
 
 
@@ -22,7 +21,7 @@ public class PlayerAttack : MonoBehaviour
 
     public int _equipedMeeleWeaponNumber;
     public int _equipedRangeWeaponNumber;
-    
+
     [SerializeField] private GameObject _axeGameObject;
     [SerializeField] private GameObject _swordGameObject;
     [SerializeField] private GameObject _daggerGameObject;
@@ -32,7 +31,7 @@ public class PlayerAttack : MonoBehaviour
     [SerializeField] private GameObject _shortBowGameObject;
     [SerializeField] private GameObject _classicBowGameObject;
 
-    
+
 
     [SerializeField] private GameObject _arrow;
     [SerializeField] private Transform _pointToshootRight;
@@ -54,15 +53,22 @@ public class PlayerAttack : MonoBehaviour
 
     private bool _swordMode = false;
     private bool _daggerMode = false;
-    private bool _axeMode = false ;
+    private bool _axeMode = false;
 
+    private GameObject[] meeleWeaponMas = new GameObject[3];
+    private GameObject[] rangeWeaponMas = new GameObject[3];
+
+    private GameObject _weaponToDestroy;
+
+    private int weaponNumber;
 
     private void Update()
     {
         MeeleAttack();
-        ChangeWeapons();
         RangeAttack();
-        if  (_arrowCount == 5)
+        SetWeapons();
+        MasFeeler();
+        if (_arrowCount == 5)
         {
             _timeToReload = 1f;
         }
@@ -105,7 +111,7 @@ public class PlayerAttack : MonoBehaviour
             {
                 _timeToReload -= Time.deltaTime;
             }
-            
+
         }
     }
     public void MeeleAttack()
@@ -125,7 +131,7 @@ public class PlayerAttack : MonoBehaviour
                         enemies[i].gameObject.GetComponent<Enemy>().Bleeding(_playerDamage);
                 }
                 _CDtimer = _hitCoolDown;
-                
+
             }
         }
         else
@@ -133,92 +139,66 @@ public class PlayerAttack : MonoBehaviour
             _CDtimer -= Time.deltaTime;
         }
     }
-
-   public void ChangeWeapons()
+    public void SetWeapons()
     {
         if (_WeaponToTakeTag != null)
         {
             if (Input.GetKeyDown(KeyCode.E))
             {
-                if (_WeaponToTakeTag == "Axe")
-                {
-                    _axeMode = true;
-                    _swordMode = false;
-                    _daggerMode = false;
-                    SetCharateristics(meeleWeapon[0].MeeleWeaponDamage, meeleWeapon[0].MeeleWeaponCD, meeleWeapon[0].MeeleWeaponAttackRange);
-                    if (equipedMeeleWeapon.Count > 0)
-                    {
-                        Instantiate(equipedMeeleWeapon[0], _weaponSpawn.position, _weaponSpawn.rotation);
-                    }
-                    equipedMeeleWeapon.Clear();
-                    equipedMeeleWeapon.Add(_axeGameObject);
-                    Destroy(GameObject.FindGameObjectWithTag("Axe"));
-                }
-                if (_WeaponToTakeTag == "Sword")
-                {
-                    _axeMode = false;
-                    _swordMode = true;
-                    _daggerMode = false;
-                    SetCharateristics(meeleWeapon[1].MeeleWeaponDamage, meeleWeapon[1].MeeleWeaponCD, meeleWeapon[1].MeeleWeaponAttackRange);
-                    if (equipedMeeleWeapon.Count > 0)
-                    {
-                        Instantiate(equipedMeeleWeapon[0], _weaponSpawn.position, _weaponSpawn.rotation);
-                    }
-                    equipedMeeleWeapon.Clear();
-                    equipedMeeleWeapon.Add(_swordGameObject);
-                    Destroy(GameObject.FindGameObjectWithTag("Sword"));
-                }
-                if (_WeaponToTakeTag == "Dagger")
-                {
-                    _axeMode = false;
-                    _swordMode = false;
-                    _daggerMode = true;
-                    SetCharateristics(meeleWeapon[2].MeeleWeaponDamage, meeleWeapon[2].MeeleWeaponCD, meeleWeapon[2].MeeleWeaponAttackRange);
-                    if (equipedMeeleWeapon.Count > 0)
-                    {
-                        Instantiate(equipedMeeleWeapon[0], _weaponSpawn.position, _weaponSpawn.rotation);
-                    }
-                    equipedMeeleWeapon.Clear();
-                    equipedMeeleWeapon.Add(_daggerGameObject);
-                    Destroy(GameObject.FindGameObjectWithTag("Dagger"));
-                }
-                if (_WeaponToTakeTag == "LongBow")
-                {
-                    SetCharateristics(rangeWeapon[0].RangeWeaponDamage, rangeWeapon[0].RangeWeaponCD, rangeWeapon[0].RangeWeaponMovementSpeed, rangeWeapon[0].RangeWeaponDistanceToRB, rangeWeapon[0].RangeWeaponArrowCount);
-                    if (equipedRangeWeapon.Count > 0)
-                    {
-                        Instantiate(equipedRangeWeapon[0], _weaponSpawn.position, _weaponSpawn.rotation);
-                    }
-                    equipedRangeWeapon.Clear();
-                    equipedRangeWeapon.Add(_longBowGameObject);
-                    Destroy(GameObject.FindGameObjectWithTag("LongBow"));
-                }
-                if (_WeaponToTakeTag == "ShortBow")
-                {
-                    SetCharateristics(rangeWeapon[1].RangeWeaponDamage, rangeWeapon[1].RangeWeaponCD, rangeWeapon[1].RangeWeaponMovementSpeed, rangeWeapon[1].RangeWeaponDistanceToRB, rangeWeapon[1].RangeWeaponArrowCount);
-                    if (equipedRangeWeapon.Count > 0)
-                    {
-                        Instantiate(equipedRangeWeapon[0], _weaponSpawn.position, _weaponSpawn.rotation);
-                    }
-                    equipedRangeWeapon.Clear();
-                    equipedRangeWeapon.Add(_shortBowGameObject);
-                    Destroy(GameObject.FindGameObjectWithTag("ShortBow"));
-                }
-                if (_WeaponToTakeTag == "ClassicBow")
-                {
-                    SetCharateristics(rangeWeapon[2].RangeWeaponDamage, rangeWeapon[2].RangeWeaponCD, rangeWeapon[2].RangeWeaponMovementSpeed, rangeWeapon[2].RangeWeaponDistanceToRB, rangeWeapon[2].RangeWeaponArrowCount);
-                    if (equipedRangeWeapon.Count > 0)
-                    {
-                        Instantiate(equipedRangeWeapon[0], _weaponSpawn.position, _weaponSpawn.rotation);
-                    }
-                    equipedRangeWeapon.Clear();
-                    equipedRangeWeapon.Add(_classicBowGameObject);
-                    Destroy(GameObject.FindGameObjectWithTag("ClassicBow"));
-                }
+                ChangeWeapons(weaponNumber);
             }
         }
     }
+    public void ChangeWeapons(int weaponNumber)
+    {
+        if (_WeaponToTakeTag == "MeeleWeapon")
+        {
+            SetCharateristics(meeleWeapon[weaponNumber].MeeleWeaponDamage, meeleWeapon[weaponNumber].MeeleWeaponCD, meeleWeapon[weaponNumber].MeeleWeaponAttackRange);
+            if (equipedMeeleWeapon.Count > 0)
+            {
+                Instantiate(equipedMeeleWeapon[0], _weaponSpawn.position, _weaponSpawn.rotation);
+            }
+            equipedMeeleWeapon.Clear();
+            equipedMeeleWeapon.Add(meeleWeaponMas[weaponNumber]);
+            Destroy(_weaponToDestroy);
+        }
 
+        if (_WeaponToTakeTag == "RangeWeapon")
+        {
+            SetCharateristics(rangeWeapon[weaponNumber].RangeWeaponDamage, rangeWeapon[weaponNumber].RangeWeaponCD, rangeWeapon[weaponNumber].RangeWeaponMovementSpeed, rangeWeapon[weaponNumber].RangeWeaponDistanceToRB, rangeWeapon[weaponNumber].RangeWeaponArrowCount);
+            if (equipedRangeWeapon.Count > 0)
+            {
+                Instantiate(equipedRangeWeapon[0], _weaponSpawn.position, _weaponSpawn.rotation);
+            }
+            equipedRangeWeapon.Clear();
+            equipedRangeWeapon.Add(rangeWeaponMas[weaponNumber]);
+        }
+        Destroy(_weaponToDestroy);
+    }
+
+    public void OnTriggerStay2D(Collider2D other)
+    {
+        _WeaponToTakeTag = other.gameObject.tag;
+        for (int i = 0; i < meeleWeaponMas.Length; i++)
+        {
+            if (meeleWeaponMas[i].GetComponent<SpriteRenderer>().color == other.gameObject.GetComponent<SpriteRenderer>().color)
+            {
+                weaponNumber = i;
+            }
+        }
+        for (int i = 0; i < rangeWeaponMas.Length; i++)
+        {
+            if (rangeWeaponMas[i].GetComponent<SpriteRenderer>().color == other.gameObject.GetComponent<SpriteRenderer>().color)
+            {
+                weaponNumber = i;
+            }
+        }
+        _weaponToDestroy = other.gameObject;
+    }
+    public void OnTriggerExit2D(Collider2D other)
+    {
+        _WeaponToTakeTag = null;
+    }
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.yellow;
@@ -227,21 +207,11 @@ public class PlayerAttack : MonoBehaviour
 
     public void SetCharateristics(int damage, float CD, float range)
     {
-            _hitCoolDown = CD;
-            _playerDamage = damage;
-            _attackRange = range;
+        _hitCoolDown = CD;
+        _playerDamage = damage;
+        _attackRange = range;
     }
 
-
-
-    public void OnTriggerEnter2D(Collider2D other)
-    {
-        _WeaponToTakeTag = other.gameObject.tag;
-    }
-    public void OnTriggerExit2D(Collider2D other)
-    {
-        _WeaponToTakeTag = null;
-    }
     private float _bowCd;
     public static int _bowDamage;
     public static float arrowMovementSpeed;
@@ -254,7 +224,16 @@ public class PlayerAttack : MonoBehaviour
         arrowMovementSpeed = movementSpeed;
         arrowDistanceToRb = distanceToRb;
         arrowCount = Count;
-        
+
+    }
+
+    public void MasFeeler()
+    {
+        meeleWeaponMas[0] = _axeGameObject;
+        meeleWeaponMas[1] = _swordGameObject;
+        meeleWeaponMas[2] = _daggerGameObject;
+        rangeWeaponMas[0] = _longBowGameObject;
+        rangeWeaponMas[1] = _shortBowGameObject;
+        rangeWeaponMas[2] = _classicBowGameObject;
     }
 }
-

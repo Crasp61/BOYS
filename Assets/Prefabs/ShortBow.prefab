@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 7968035978628533943}
   m_Layer: 0
   m_Name: ShortBow
-  m_TagString: ShortBow
+  m_TagString: RangeWeapon
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

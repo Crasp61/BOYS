@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 1258447604771009463}
   m_Layer: 0
   m_Name: LongBow
-  m_TagString: LongBow
+  m_TagString: RangeWeapon
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

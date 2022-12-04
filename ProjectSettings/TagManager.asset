@@ -12,6 +12,8 @@ TagManager:
   - LongBow
   - ShortBow
   - ClassicBow
+  - MeeleWeapon
+  - RangeWeapon
   layers:
   - Default
   - TransparentFX

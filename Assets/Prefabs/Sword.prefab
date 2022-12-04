@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 5597305725520310890}
   m_Layer: 8
   m_Name: Sword
-  m_TagString: Sword
+  m_TagString: MeeleWeapon
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
