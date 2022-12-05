@@ -15,7 +15,7 @@ public class PlayerAttack : MonoBehaviour
     [SerializeField] private List<RangeWeapon> rangeWeapon;
     [SerializeField] private List<GameObject> equipedRangeWeapon = new List<GameObject>() { };
 
-
+    private int _arrowCount;
 
     private string _WeaponToTakeTag = null;
 
@@ -36,10 +36,6 @@ public class PlayerAttack : MonoBehaviour
     [SerializeField] private GameObject _arrow;
     [SerializeField] private Transform _pointToshootRight;
     [SerializeField] private Transform _pointToshootLeft;
-    private float _timeToCd = 0.2f;
-    private float _bowTimer;
-    private int _arrowCount = 5;
-    private float _timeToReload;
 
 
     [SerializeField] private Transform _enemyCheck;
@@ -47,13 +43,10 @@ public class PlayerAttack : MonoBehaviour
 
 
     private float _hitCoolDown = 0.5f;
-    private float _CDtimer;
+
     [SerializeField] private int _playerDamage = 5;
     [SerializeField] private float _attackRange = 0.43f;
 
-    private bool _swordMode = false;
-    private bool _daggerMode = false;
-    private bool _axeMode = false;
 
     private GameObject[] meeleWeaponMas = new GameObject[3];
     private GameObject[] rangeWeaponMas = new GameObject[3];
@@ -62,27 +55,38 @@ public class PlayerAttack : MonoBehaviour
 
     private int weaponNumber;
 
+    private bool readyToShoot = true;
+    private bool isReloading = false;
+    private bool isAttacking = false;
     private void Update()
     {
-        MeeleAttack();
-        RangeAttack();
+        if (!isAttacking)
+        {
+            StartCoroutine(MeeleAttack());
+        }
+        if (readyToShoot)
+        {
+            StartCoroutine(RangeAttack());
+        }
+        if (!isReloading)
+        {
+            StartCoroutine(Reaload());
+        }
+
         SetWeapons();
         MasFeeler();
-        if (_arrowCount == 5)
-        {
-            _timeToReload = 1f;
-        }
     }
 
-    public void RangeAttack()
+    public IEnumerator RangeAttack()
     {
         if (equipedRangeWeapon.Count > 0)
         {
             if (_arrowCount > 0)
             {
-                if (_bowTimer <= 0 && Input.GetMouseButtonDown(1))
+                if (Input.GetMouseButtonDown(1))
                 {
-
+                    readyToShoot = false;
+                    yield return new WaitForSeconds(_bowCd);
                     if (Player._isFacingRight)
                     {
                         Instantiate(_arrow, _pointToshootRight.position, _pointToshootRight.rotation);
@@ -92,53 +96,38 @@ public class PlayerAttack : MonoBehaviour
                         Instantiate(_arrow, _pointToshootLeft.position, _pointToshootLeft.rotation);
                     }
                     _arrowCount--;
-                    _bowTimer = _timeToCd;
-                }
-                else
-                {
-                    _bowTimer -= Time.deltaTime;
+                    readyToShoot = true;
                 }
             }
-            if (_timeToReload <= 0)
-            {
-                if (_arrowCount < 5)
-                {
-                    _arrowCount++;
-                    _timeToReload = 1f;
-                }
-            }
-            else
-            {
-                _timeToReload -= Time.deltaTime;
-            }
-
+            Debug.Log(_arrowCount);
         }
     }
-    public void MeeleAttack()
+    public IEnumerator Reaload()
     {
-        if (_CDtimer <= 0)
+        if (_arrowCount < arrowCount)
         {
-            if (Input.GetMouseButton(0))
-            {
-                Collider2D[] enemies = Physics2D.OverlapCircleAll(_enemyCheck.position, _attackRange, _enemyLayer);
-                for (int i = 0; i < enemies.Length; i++)
-                {
-                    if (_daggerMode == false && _axeMode == false && _swordMode == false)
-                        enemies[i].gameObject.GetComponent<Enemy>().TakeDamage(_playerDamage);
-                    if (_swordMode)
-                        enemies[i].gameObject.GetComponent<Enemy>().CriticalChanceMode(_playerDamage);
-                    if (_daggerMode)
-                        enemies[i].gameObject.GetComponent<Enemy>().Bleeding(_playerDamage);
-                }
-                _CDtimer = _hitCoolDown;
-
-            }
-        }
-        else
-        {
-            _CDtimer -= Time.deltaTime;
+            isReloading = true;
+            yield return new WaitForSeconds(_bowCd + 1);
+            _arrowCount++;
+            isReloading = false;
         }
     }
+
+    public IEnumerator MeeleAttack()
+    {
+        if (Input.GetMouseButton(0))
+        {
+            isAttacking = true;
+            yield return new WaitForSeconds(_hitCoolDown);
+            Collider2D[] enemies = Physics2D.OverlapCircleAll(_enemyCheck.position, _attackRange, _enemyLayer);
+            for (int i = 0; i < enemies.Length; i++)
+            {
+                enemies[i].gameObject.GetComponent<Enemy>().TakeDamage(_playerDamage);
+            }
+            isAttacking=false;
+        }
+    }
+        
     public void SetWeapons()
     {
         if (_WeaponToTakeTag != null)
@@ -224,6 +213,7 @@ public class PlayerAttack : MonoBehaviour
         arrowMovementSpeed = movementSpeed;
         arrowDistanceToRb = distanceToRb;
         arrowCount = Count;
+        _arrowCount = arrowCount;
 
     }
 
@@ -235,5 +225,13 @@ public class PlayerAttack : MonoBehaviour
         rangeWeaponMas[0] = _longBowGameObject;
         rangeWeaponMas[1] = _shortBowGameObject;
         rangeWeaponMas[2] = _classicBowGameObject;
+    }
+
+    public void UseModOfWeapon(int number, int someNumber)
+    {
+        if (number == 2)
+        {
+
+        }
     }
 }

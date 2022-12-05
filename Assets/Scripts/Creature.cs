@@ -27,7 +27,7 @@ public abstract class Creature : MonoBehaviour
     }
 
     private float _criticalChance = 0.5f;
-    private float timeToBleed;
+    private double timeToBleed;
     private float TimeToHit;
 
     public void CriticalChanceMode(int damage)
@@ -39,31 +39,6 @@ public abstract class Creature : MonoBehaviour
         }
         else
             TakeDamage(damage);
-    }
-
-    public void Bleeding(int damage)
-    {
-        TakeDamage(damage);
-        if (timeToBleed > 0)
-        {
-
-            timeToBleed = 5;
-            if (timeToBleed > 0)
-            {
-                if (TimeToHit <= 0)
-                {
-                    TakeDamage(damage / 8);
-                    TimeToHit = 1;
-                }
-                else
-                {
-                    TimeToHit -= Time.deltaTime;
-                }
-                timeToBleed -= Time.deltaTime;
-            }
-        }
-
-
     }
 }
 

@@ -58,11 +58,9 @@
   <ItemGroup>
     <Compile Include="Assets\Scripts\Arrow.cs" />
     <Compile Include="Assets\Scripts\RangeWeapon.cs" />
-    <Compile Include="Assets\Scripts\GameManager.cs" />
     <Compile Include="Assets\Scripts\SmoothCamera.cs" />
     <Compile Include="Assets\Scripts\Scroll.cs" />
     <Compile Include="Assets\Scripts\GhostEnemy.cs" />
-    <Compile Include="Assets\Scripts\SaveSerial.cs" />
     <Compile Include="Assets\Scripts\EnemyAttack.cs" />
     <Compile Include="Assets\Scripts\MoveBG.cs" />
     <Compile Include="Assets\Scripts\Follower.cs" />
@@ -71,8 +69,8 @@
     <Compile Include="Assets\Scripts\Creature.cs" />
     <Compile Include="Assets\Scripts\PlayerAttack.cs" />
     <Compile Include="Assets\Scripts\Background.cs" />
-    <Compile Include="Assets\Scripts\SceneChanger.cs" />
     <Compile Include="Assets\Scripts\MeeleEnemy.cs" />
+    <Compile Include="Assets\Scripts\Mods.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">
