@@ -15,16 +15,18 @@ public class MeeleEnemy : Enemy
     public Transform _playerPosition;
     [SerializeField] private float _agroDistance;
     public bool movingRight = true;
+    
 
 
 
     protected override void Start()
     {
         base.Start();
+        
     }
     private void Update()
     {
-        float distToPlayer = Vector2.Distance(transform.position, _playerPosition.position);
+        float distToPlayer = Vector2.Distance(transform.position, GameObject.FindGameObjectWithTag("Player").transform.position);
 
         if (distToPlayer < _agroDistance)
         {
@@ -41,9 +43,9 @@ public class MeeleEnemy : Enemy
     {
         if (EndPlatfom())
         {
-            transform.position = Vector3.MoveTowards(transform.position, _playerPosition.position, _movementSpeed * 2 * Time.deltaTime);
+            transform.position = Vector3.MoveTowards(transform.position, GameObject.FindGameObjectWithTag("Player").transform.position, _movementSpeed * 2 * Time.deltaTime);
         }
-        if (transform.position.x > _playerPosition.position.x)
+        if (transform.position.x > GameObject.FindGameObjectWithTag("Player").transform.position.x)
         {
             transform.eulerAngles = new Vector3(0, -180, 0);
         }
@@ -58,9 +60,9 @@ public class MeeleEnemy : Enemy
     {
         transform.Translate(Vector2.right * _movementSpeed * Time.deltaTime);
 
-        RaycastHit2D groundInfo = Physics2D.Raycast(GroubdCheckForStop.position, Vector2.down, 2f);
-        RaycastHit2D walldInfo = Physics2D.Raycast(WallCheck.position, Vector2.zero, 2f);
-        if (groundInfo.collider == false || walldInfo.collider == true)
+        Collider2D groundInfo = Physics2D.OverlapCircle(GroubdCheckForStop.position, 0.2f, _groundLayer);
+        Collider2D wallInfo = Physics2D.OverlapCircle(WallCheck.position, 0.2f, _groundLayer);
+        if (groundInfo == false || wallInfo == true)
         {
             if (movingRight == true)
             {
