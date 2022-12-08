@@ -9,10 +9,13 @@ using UnityEngine.Animations;
 
 public class MeeleEnemy : Enemy
 {
-    [SerializeField]Transform GroubdCheckForStop;
-    [SerializeField]LayerMask _groundLayer;
-    public Transform _playerPosition;   
+    [SerializeField] Transform GroubdCheckForStop;
+    [SerializeField] Transform WallCheck;
+    [SerializeField] LayerMask _groundLayer;
+    public Transform _playerPosition;
     [SerializeField] private float _agroDistance;
+    public bool movingRight = true;
+
 
 
     protected override void Start()
@@ -21,17 +24,16 @@ public class MeeleEnemy : Enemy
     }
     private void Update()
     {
-
         float distToPlayer = Vector2.Distance(transform.position, _playerPosition.position);
 
         if (distToPlayer < _agroDistance)
         {
             StartHunting();
         }
-       /* else
+        else
         {
-            StopHuntingAndBack();
-        }*/
+            Patrol();
+        }
     }
 
 
@@ -39,17 +41,38 @@ public class MeeleEnemy : Enemy
     {
         if (EndPlatfom())
         {
-            transform.position = Vector3.MoveTowards(transform.position, _playerPosition.position, _movementSpeed * Time.deltaTime);
+            transform.position = Vector3.MoveTowards(transform.position, _playerPosition.position, _movementSpeed * 2 * Time.deltaTime);
         }
-            if (transform.position.x > _playerPosition.position.x)
+        if (transform.position.x > _playerPosition.position.x)
+        {
+            transform.eulerAngles = new Vector3(0, -180, 0);
+        }
+        else
+        {
+            transform.eulerAngles = new Vector3(0, 0, 0);
+        }
+
+
+    }
+    public void Patrol()
+    {
+        transform.Translate(Vector2.right * _movementSpeed * Time.deltaTime);
+
+        RaycastHit2D groundInfo = Physics2D.Raycast(GroubdCheckForStop.position, Vector2.down, 2f);
+        RaycastHit2D walldInfo = Physics2D.Raycast(WallCheck.position, Vector2.zero, 2f);
+        if (groundInfo.collider == false || walldInfo.collider == true)
+        {
+            if (movingRight == true)
             {
-                transform.localScale = new Vector2(0.5f, 0.5f);
+                transform.eulerAngles = new Vector3(0, -180, 0);
+                movingRight = false;
             }
             else
             {
-                transform.localScale = new Vector2(-0.5f, 0.5f);
+                transform.eulerAngles = new Vector3(0, 0, 0);
+                movingRight = true;
             }
-        
+        }
     }
     public bool EndPlatfom()
     {
