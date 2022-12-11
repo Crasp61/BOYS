@@ -3360,7 +3360,7 @@ MonoBehaviour:
   _rangeOfDetection: 5
   _playerPosition: {fileID: 2003399129}
   _pointEnemyBase: {fileID: 1810170773}
-  _agroDistance: 5
+  _agroDistance: 8
 --- !u!50 &1444707617
 Rigidbody2D:
   serializedVersion: 4
@@ -5517,11 +5517,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4164079541363577558, guid: 470a541e41a772d4abeee60124d9b34a, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -6.2
+      value: -9.19
       objectReference: {fileID: 0}
     - target: {fileID: 4164079541363577558, guid: 470a541e41a772d4abeee60124d9b34a, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -2.28
+      value: -1.48
       objectReference: {fileID: 0}
     - target: {fileID: 4164079541363577558, guid: 470a541e41a772d4abeee60124d9b34a, type: 3}
       propertyPath: m_LocalPosition.z
@@ -5570,11 +5570,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3585624077846366729, guid: 63a026cd687e39e4d9485f4599114d39, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 5.91
+      value: 18.04
       objectReference: {fileID: 0}
     - target: {fileID: 3585624077846366729, guid: 63a026cd687e39e4d9485f4599114d39, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -1.64
+      value: -1.73
       objectReference: {fileID: 0}
     - target: {fileID: 3585624077846366729, guid: 63a026cd687e39e4d9485f4599114d39, type: 3}
       propertyPath: m_LocalPosition.z

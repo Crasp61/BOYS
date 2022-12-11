@@ -41,7 +41,7 @@ public class GhostEnemy : Enemy
    
     public void StartHunting()
     {
-        transform.position = Vector3.MoveTowards(transform.position, _playerPosition.position, _movementSpeed * Time.deltaTime);
+        transform.position = Vector3.MoveTowards(transform.position, _playerPosition.position, _movementSpeed * 2.5f * Time.deltaTime);
         if (transform.position.x > _playerPosition.position.x)
         {
             transform.localScale = new Vector2(0.1f, 0.1f);

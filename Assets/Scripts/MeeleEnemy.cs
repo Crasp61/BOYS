@@ -78,7 +78,8 @@ public class MeeleEnemy : Enemy
     }
     public bool EndPlatfom()
     {
-        return Physics2D.OverlapCircle(GroubdCheckForStop.position, 0.2f, _groundLayer);
+        return Physics2D.OverlapCircle(GroubdCheckForStop.position, 0.2f, _groundLayer) && !Physics2D.OverlapCircle(WallCheck.position, 0.2f, _groundLayer);
+        
 
     }
 }
