@@ -167,22 +167,25 @@ public class PlayerAttack : MonoBehaviour
 
     public void OnTriggerStay2D(Collider2D other)
     {
-        _WeaponToTakeTag = other.gameObject.tag;
-        for (int i = 0; i < meeleWeaponMas.Length; i++)
+        if (other.gameObject.tag != "Chest")
         {
-            if (meeleWeaponMas[i].GetComponent<SpriteRenderer>().color == other.gameObject.GetComponent<SpriteRenderer>().color)
+            _WeaponToTakeTag = other.gameObject.tag;
+            for (int i = 0; i < meeleWeaponMas.Length; i++)
             {
-                weaponNumber = i;
+                if (meeleWeaponMas[i].GetComponent<SpriteRenderer>().color == other.gameObject.GetComponent<SpriteRenderer>().color)
+                {
+                    weaponNumber = i;
+                }
             }
-        }
-        for (int i = 0; i < rangeWeaponMas.Length; i++)
-        {
-            if (rangeWeaponMas[i].GetComponent<SpriteRenderer>().color == other.gameObject.GetComponent<SpriteRenderer>().color)
+            for (int i = 0; i < rangeWeaponMas.Length; i++)
             {
-                weaponNumber = i;
+                if (rangeWeaponMas[i].GetComponent<SpriteRenderer>().color == other.gameObject.GetComponent<SpriteRenderer>().color)
+                {
+                    weaponNumber = i;
+                }
             }
+            _weaponToDestroy = other.gameObject;
         }
-        _weaponToDestroy = other.gameObject;
     }
     public void OnTriggerExit2D(Collider2D other)
     {

@@ -376,6 +376,7 @@
 -r:"Library/Bee/artifacts/1900b0aE.dag/UnityEngine.UI.ref.dll"
 "Assets/Scripts/Arrow.cs"
 "Assets/Scripts/Background.cs"
+"Assets/Scripts/Chest.cs"
 "Assets/Scripts/Creature.cs"
 "Assets/Scripts/EnemyAttack.cs"
 "Assets/Scripts/Follower.cs"
