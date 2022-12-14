@@ -167,7 +167,7 @@ public class PlayerAttack : MonoBehaviour
 
     public void OnTriggerStay2D(Collider2D other)
     {
-        if (other.gameObject.tag != "Chest")
+        if (other.gameObject.tag == "MeeleWeapon" || other.gameObject.tag == "RangeWeapon")
         {
             _WeaponToTakeTag = other.gameObject.tag;
             for (int i = 0; i < meeleWeaponMas.Length; i++)

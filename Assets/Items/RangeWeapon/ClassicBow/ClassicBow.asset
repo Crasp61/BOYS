@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _rangeWeaponName: 
   _rangeWeaponDamage: 8
-  _rangeWeaponCD: 1.25
+  _rangeWeaponCD: 0.3
   _rangeWeaponMovementSpeed: 10
   _rangeWeaponDistanceToRB: 0.1
   _rangeWeaponArrowCount: 10
