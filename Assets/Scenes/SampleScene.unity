@@ -5520,6 +5520,8 @@ MonoBehaviour:
   _groundLayer:
     serializedVersion: 2
     m_Bits: 8
+  WallCheck: {fileID: 1678668005}
+  wallSlidingSpeed: 1
 --- !u!114 &2003399134
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -35,7 +35,6 @@ public class GhostEnemy : Enemy
         {
             StopHuntingAndBack();
         }
-        Debug.Log(_curentHealth);
     }
     
    

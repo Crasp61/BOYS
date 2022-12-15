@@ -99,7 +99,6 @@ public class PlayerAttack : MonoBehaviour
                     readyToShoot = true;
                 }
             }
-            Debug.Log(_arrowCount);
         }
     }
     public IEnumerator Reaload()

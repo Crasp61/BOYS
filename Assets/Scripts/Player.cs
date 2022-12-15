@@ -19,14 +19,22 @@ public class Player : Creature
     [SerializeField] private float _jumpForce = 4f; //переменные для прыжка
     [SerializeField] Transform GroundCheck;
     [SerializeField] LayerMask _groundLayer;
+    [SerializeField] Transform WallCheck;
 
+    private bool isTouchingWall;
 
+    private bool wallSliding;
+
+    [SerializeField] float wallSlidingSpeed;
+
+    private int jumpCount;
     public void Awake()
     {
         DontDestroyOnLoad(gameObject);
     }
     private void Update()                                                          
     {
+        isTouchingWall = Physics2D.OverlapCircle(WallCheck.position, 0.2f, _groundLayer);
         if (_isDashing)
         {
             return;
@@ -42,6 +50,8 @@ public class Player : Creature
         jump();
 
         Flip();
+
+        slide();
 
     }
 
@@ -71,9 +81,15 @@ public class Player : Creature
     }
     private void jump()
     {
-        if (Input.GetKeyDown(KeyCode.Space) && IsGrounded())
+        if (IsGrounded())
+        {
+            jumpCount = 1;
+        }
+
+        if (Input.GetKeyDown(KeyCode.Space) && jumpCount > 0)
         {
             rb.velocity = new Vector2(rb.velocity.x, _jumpForce);
+            jumpCount -= 1;
         }
 
         if (Input.GetKeyDown(KeyCode.Space) && rb.velocity.y > 0f)
@@ -109,6 +125,23 @@ public class Player : Creature
             localScale.x *= -1f;
             transform.localScale = localScale;
 
+        }
+    }
+
+    private void slide()
+    {
+        if (isTouchingWall == true && IsGrounded() == false)
+        {
+            wallSliding = true;
+        }
+        else
+        {
+            wallSliding = false;
+        }
+
+        if (wallSliding)
+        {
+            rb.velocity = new Vector2(rb.velocity.x, Math.Clamp(rb.velocity.y, -wallSlidingSpeed, float.MaxValue));
         }
     }
 
