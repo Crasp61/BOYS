@@ -44,7 +44,7 @@ public class PlayerAttack : MonoBehaviour
 
     private float _hitCoolDown = 0.5f;
 
-    [SerializeField] private int _playerDamage = 5;
+    public int _playerDamage = 5;
     [SerializeField] private float _attackRange = 0.43f;
 
 
@@ -122,11 +122,12 @@ public class PlayerAttack : MonoBehaviour
             for (int i = 0; i < enemies.Length; i++)
             {
                 enemies[i].gameObject.GetComponent<Enemy>().TakeDamage(_playerDamage);
+                enemies[i].gameObject.GetComponent<Enemy>().isBleeding = true;
             }
-            isAttacking=false;
+            isAttacking = false;
         }
     }
-        
+
     public void SetWeapons()
     {
         if (_WeaponToTakeTag != null)

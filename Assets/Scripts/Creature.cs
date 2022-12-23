@@ -11,11 +11,20 @@ public abstract class Creature : MonoBehaviour
     [HideInInspector]public int _curentHealth;
     [SerializeField] protected float _angleOffSet = 90f;
     [SerializeField] protected float rotationSpeed = 6f;
+    private GameObject player;
     
 
     protected virtual void Start()
     {
         _curentHealth = _maxHealth;
+    }
+
+    protected virtual void Update()
+    {
+        if (isBleeding)
+        {
+            StartCoroutine(Bleeding());
+        }
     }
     public void TakeDamage(int damage)
     {
@@ -39,6 +48,28 @@ public abstract class Creature : MonoBehaviour
         }
         else
             TakeDamage(damage);
+    }
+
+    public bool isBleeding = false;
+    public bool readyToTakeDamage = true;
+    public int bleedCount = 0;
+    public IEnumerator Bleeding()
+    {
+        player = GameObject.FindGameObjectWithTag("Player");
+        if (isBleeding)
+        {
+            if (bleedCount < 10)
+            {
+                if (readyToTakeDamage)
+                {
+                    readyToTakeDamage = false;
+                    TakeDamage(player.gameObject.GetComponent<PlayerAttack>()._playerDamage / 8);
+                    yield return new WaitForSeconds(0.33f);
+                    readyToTakeDamage = true;
+                    bleedCount++;
+                }
+            }
+        }
     }
 }
 

@@ -21,9 +21,11 @@ public class Player : Creature
     [SerializeField] LayerMask _groundLayer;
     [SerializeField] Transform WallCheck;
 
+    private float _slideTime;
     private bool isTouchingWall;
-
     private bool wallSliding;
+    private Vector2 _jumpAngle = new Vector2(30f, 10f);
+    private bool _blocMove = false;
 
     [SerializeField] float wallSlidingSpeed;
 
@@ -32,9 +34,9 @@ public class Player : Creature
     {
         DontDestroyOnLoad(gameObject);
     }
-    private void Update()                                                          
+    protected override void Update()                                                          
     {
-        isTouchingWall = Physics2D.OverlapCircle(WallCheck.position, 0.2f, _groundLayer);
+
         if (_isDashing)
         {
             return;
@@ -50,8 +52,8 @@ public class Player : Creature
         jump();
 
         Flip();
-
         slide();
+
 
     }
 
@@ -62,15 +64,17 @@ public class Player : Creature
             return;
         }
         FixedMove();
+        
     }
 
     protected void Move()                                                               //Методы движения
     {
+        
         _horizontal = Input.GetAxisRaw("Horizontal");
     }
     private void FixedMove()
     {
-
+        if (_blocMove == false)
         rb.velocity = new Vector2(_horizontal * _movementSpeed, rb.velocity.y);
     }
 
@@ -78,12 +82,19 @@ public class Player : Creature
     private bool IsGrounded()                                                           //Методы прыжка
     {
         return Physics2D.OverlapCircle(GroundCheck.position, 0.2f, _groundLayer);
+        
+    }
+
+    private bool IsTouchingWall()
+    {
+        return Physics2D.OverlapCircle(WallCheck.position, 0.2f, _groundLayer);
     }
     private void jump()
     {
         if (IsGrounded())
         {
             jumpCount = 1;
+            _slideTime = 5f;
         }
 
         if (Input.GetKeyDown(KeyCode.Space) && jumpCount > 0)
@@ -94,8 +105,9 @@ public class Player : Creature
 
         if (Input.GetKeyDown(KeyCode.Space) && rb.velocity.y > 0f)
         {
-            rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y * 0.5f);
+            rb.velocity = new Vector2(rb.velocity.x * 100, rb.velocity.y * 0.5f);
         }
+        
     }
 
 
@@ -119,18 +131,14 @@ public class Player : Creature
     {
         if (_isFacingRight && _horizontal < 0f || !_isFacingRight && _horizontal > 0f)
         {
-
-            Vector3 localScale = transform.localScale;
+            transform.localScale *= new Vector2(-1, 1);
             _isFacingRight = !_isFacingRight;
-            localScale.x *= -1f;
-            transform.localScale = localScale;
-
         }
     }
 
     private void slide()
     {
-        if (isTouchingWall == true && IsGrounded() == false)
+        if (IsTouchingWall() && IsGrounded() == false)
         {
             wallSliding = true;
         }
@@ -138,10 +146,26 @@ public class Player : Creature
         {
             wallSliding = false;
         }
-
-        if (wallSliding)
+        if (_slideTime > 0)
         {
-            rb.velocity = new Vector2(rb.velocity.x, Math.Clamp(rb.velocity.y, -wallSlidingSpeed, float.MaxValue));
+            if (wallSliding)
+            {
+                
+                rb.velocity = new Vector2(rb.velocity.x, Math.Clamp(rb.velocity.y, -wallSlidingSpeed, float.MaxValue));
+                if (Input.GetKeyDown(KeyCode.Space))
+                {
+                    _blocMove = true;
+                    transform.localScale *= new Vector2(-1, 1);
+                    _isFacingRight = !_isFacingRight;
+
+                    rb.velocity = new Vector2(transform.localScale.x * _jumpAngle.x, _jumpAngle.y);
+                }
+                _slideTime -= Time.deltaTime;
+            }
+        }
+        if (_blocMove && IsTouchingWall() || IsGrounded() || _horizontal != 0)
+        {
+            _blocMove = false;
         }
     }
 

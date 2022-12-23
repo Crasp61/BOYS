@@ -22,7 +22,7 @@ public class GhostEnemy : Enemy
     {
         base.Start();  
     }
-    private void Update()
+    protected override void Update()
     {
         
         float distToPlayer = Vector2.Distance(transform.position, _playerPosition.position);
@@ -35,6 +35,8 @@ public class GhostEnemy : Enemy
         {
             StopHuntingAndBack();
         }
+
+        Debug.Log(_curentHealth);
     }
     
    

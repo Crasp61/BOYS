@@ -24,7 +24,7 @@ public class MeeleEnemy : Enemy
         base.Start();
         
     }
-    private void Update()
+    protected override void Update()
     {
         float distToPlayer = Vector2.Distance(transform.position, GameObject.FindGameObjectWithTag("Player").transform.position);
 
