@@ -36,7 +36,7 @@ public class Player : Creature
     }
     protected override void Update()                                                          
     {
-
+        base.Update();
         if (_isDashing)
         {
             return;

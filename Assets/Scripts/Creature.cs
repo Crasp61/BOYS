@@ -12,7 +12,10 @@ public abstract class Creature : MonoBehaviour
     [SerializeField] protected float _angleOffSet = 90f;
     [SerializeField] protected float rotationSpeed = 6f;
     private GameObject player;
-    
+    public bool isBleeding = false;
+    public bool readyToTakeDamage = true;
+    public int bleedCount = 0;
+
 
     protected virtual void Start()
     {
@@ -36,23 +39,7 @@ public abstract class Creature : MonoBehaviour
     }
 
     private float _criticalChance = 0.5f;
-    private double timeToBleed;
-    private float TimeToHit;
 
-    public void CriticalChanceMode(int damage)
-    {
-        float rand = Random.Range(0f, 1f);
-        if (rand < _criticalChance)
-        {
-            TakeDamage(damage * 2);
-        }
-        else
-            TakeDamage(damage);
-    }
-
-    public bool isBleeding = false;
-    public bool readyToTakeDamage = true;
-    public int bleedCount = 0;
     public IEnumerator Bleeding()
     {
         player = GameObject.FindGameObjectWithTag("Player");
@@ -68,6 +55,11 @@ public abstract class Creature : MonoBehaviour
                     readyToTakeDamage = true;
                     bleedCount++;
                 }
+            }
+            else
+            {
+                isBleeding = false;
+                bleedCount = 0;
             }
         }
     }

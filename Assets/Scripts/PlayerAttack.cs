@@ -31,7 +31,7 @@ public class PlayerAttack : MonoBehaviour
     [SerializeField] private GameObject _shortBowGameObject;
     [SerializeField] private GameObject _classicBowGameObject;
 
-
+    private int meeleWeaponModNumber;
 
     [SerializeField] private GameObject _arrow;
     [SerializeField] private Transform _pointToshootRight;
@@ -46,7 +46,6 @@ public class PlayerAttack : MonoBehaviour
 
     public int _playerDamage = 5;
     [SerializeField] private float _attackRange = 0.43f;
-
 
     private GameObject[] meeleWeaponMas = new GameObject[3];
     private GameObject[] rangeWeaponMas = new GameObject[3];
@@ -111,18 +110,28 @@ public class PlayerAttack : MonoBehaviour
             isReloading = false;
         }
     }
-
+    private float _criticalChanse = 0.1f;
     public IEnumerator MeeleAttack()
     {
         if (Input.GetMouseButton(0))
         {
+            float randChanse = UnityEngine.Random.Range(0f, 1f);
             isAttacking = true;
             yield return new WaitForSeconds(_hitCoolDown);
             Collider2D[] enemies = Physics2D.OverlapCircleAll(_enemyCheck.position, _attackRange, _enemyLayer);
             for (int i = 0; i < enemies.Length; i++)
             {
                 enemies[i].gameObject.GetComponent<Enemy>().TakeDamage(_playerDamage);
-                enemies[i].gameObject.GetComponent<Enemy>().isBleeding = true;
+
+                if (meeleWeaponModNumber == 1 && randChanse < _criticalChanse)
+                {
+                    enemies[i].gameObject.GetComponent<Enemy>().TakeDamage(_playerDamage);
+                }
+
+                if (meeleWeaponModNumber == 2)
+                {
+                    enemies[i].gameObject.GetComponent<Enemy>().isBleeding = true;
+                }
             }
             isAttacking = false;
         }
@@ -142,7 +151,7 @@ public class PlayerAttack : MonoBehaviour
     {
         if (_WeaponToTakeTag == "MeeleWeapon")
         {
-            SetCharateristics(meeleWeapon[weaponNumber].MeeleWeaponDamage, meeleWeapon[weaponNumber].MeeleWeaponCD, meeleWeapon[weaponNumber].MeeleWeaponAttackRange);
+            SetCharateristics(meeleWeapon[weaponNumber].MeeleWeaponDamage, meeleWeapon[weaponNumber].MeeleWeaponCD, meeleWeapon[weaponNumber].MeeleWeaponAttackRange, meeleWeapon[weaponNumber].ModNumber);
             if (equipedMeeleWeapon.Count > 0)
             {
                 Instantiate(equipedMeeleWeapon[0], _weaponSpawn.position, _weaponSpawn.rotation);
@@ -197,11 +206,12 @@ public class PlayerAttack : MonoBehaviour
         Gizmos.DrawWireSphere(_enemyCheck.position, _attackRange);
     }
 
-    public void SetCharateristics(int damage, float CD, float range)
+    public void SetCharateristics(int damage, float CD, float range, int modNumber)
     {
         _hitCoolDown = CD;
         _playerDamage = damage;
         _attackRange = range;
+        meeleWeaponModNumber = modNumber;
     }
 
     private float _bowCd;

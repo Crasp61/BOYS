@@ -17,3 +17,4 @@ MonoBehaviour:
   _meeleWeaponCD: 0.3
   _meeleWeaponAttackRange: 0.3
   _meeleWeaponSprite: {fileID: 0}
+  _modNumber: 2
