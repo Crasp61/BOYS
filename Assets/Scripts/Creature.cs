@@ -6,7 +6,7 @@ using UnityEngine;
 public abstract class Creature : MonoBehaviour
 {
     [SerializeField] protected float _movementSpeed;
-    [SerializeField] protected int _maxHealth;
+    public int _maxHealth;
     [SerializeField] protected Rigidbody2D rb;
     [HideInInspector]public int _curentHealth;
     [SerializeField] protected float _angleOffSet = 90f;
@@ -37,8 +37,6 @@ public abstract class Creature : MonoBehaviour
             Destroy(gameObject);
         }
     }
-
-    private float _criticalChance = 0.5f;
 
     public IEnumerator Bleeding()
     {

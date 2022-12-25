@@ -72,6 +72,8 @@
     <Compile Include="Assets\Scripts\Background.cs" />
     <Compile Include="Assets\Scripts\MeeleEnemy.cs" />
     <Compile Include="Assets\Scripts\Mods.cs" />
+    <Compile Include="Assets\Scripts\Wizard.cs" />
+    <Compile Include="Assets\Scripts\TheSircleOFCurse.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">

@@ -8,7 +8,6 @@ public class Player : Creature
 {
     private float _horizontal;                                                 //Вот здесь начинается Всё что связано с передвижением(бег,Рвывок,Прыжок)
     public static bool _isFacingRight = true;
-
     private bool _canDash = true;  //Вот этот отдел : переменные для рывка
     private bool _isDashing;
     [SerializeField] private float _dashingPower = 24f;
@@ -54,7 +53,7 @@ public class Player : Creature
         Flip();
         slide();
 
-
+        Debug.Log(_curentHealth);
     }
 
     private void FixedUpdate()

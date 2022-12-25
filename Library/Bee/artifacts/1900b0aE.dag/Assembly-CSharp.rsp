@@ -390,6 +390,8 @@
 "Assets/Scripts/RangeWeapon.cs"
 "Assets/Scripts/Scroll.cs"
 "Assets/Scripts/SmoothCamera.cs"
+"Assets/Scripts/TheSircleOFCurse.cs"
+"Assets/Scripts/Wizard.cs"
 -langversion:9.0
 
 /deterministic
