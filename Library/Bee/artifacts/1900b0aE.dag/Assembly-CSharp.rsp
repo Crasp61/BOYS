@@ -381,6 +381,7 @@
 "Assets/Scripts/EnemyAttack.cs"
 "Assets/Scripts/Follower.cs"
 "Assets/Scripts/GhostEnemy.cs"
+"Assets/Scripts/HealthBar.cs"
 "Assets/Scripts/MeeleEnemy.cs"
 "Assets/Scripts/MeeleWeapon.cs"
 "Assets/Scripts/Mods.cs"

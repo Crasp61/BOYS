@@ -7,6 +7,7 @@ public class TheSircleOFCurse : MonoBehaviour
 {
     private bool playerTakeDamage = true;
     GameObject playerObj;
+    private bool playerIn;
     private void Awake()
     {
         StartCoroutine(TheTimeOfLife());
@@ -24,6 +25,7 @@ public class TheSircleOFCurse : MonoBehaviour
         if (other.gameObject.tag == "Player" && playerTakeDamage)
         {
             StartCoroutine(DoDamage());
+            playerIn = true;
         }
     }
 
@@ -31,7 +33,7 @@ public class TheSircleOFCurse : MonoBehaviour
     {
         if (other.gameObject.tag == "Player")
         {
-            StopCoroutine(DoDamage());
+            playerIn = false; 
         }
     }
 
@@ -39,7 +41,10 @@ public class TheSircleOFCurse : MonoBehaviour
     {
         playerTakeDamage = false;
         yield return new WaitForSeconds(1f);
-        playerObj.gameObject.GetComponent<Player>().TakeDamage(playerObj.gameObject.GetComponent<Player>()._maxHealth / 10);
+        if (playerIn)
+        {
+            playerObj.gameObject.GetComponent<Player>().TakeDamage(playerObj.gameObject.GetComponent<Player>()._maxHealth / 10);
+        }
         playerTakeDamage = true;
     }
 }

@@ -15,6 +15,7 @@ TagManager:
   - MeeleWeapon
   - RangeWeapon
   - Chest
+  - PointToTP
   layers:
   - Default
   - TransparentFX
@@ -78,4 +79,7 @@ TagManager:
     locked: 0
   - name: Floor
     uniqueID: 2074226461
+    locked: 0
+  - name: UI
+    uniqueID: 4079442113
     locked: 0
