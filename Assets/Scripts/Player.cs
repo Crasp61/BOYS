@@ -29,10 +29,7 @@ public class Player : Creature
     [SerializeField] float wallSlidingSpeed;
 
     private int jumpCount;
-    public void Awake()
-    {
-        DontDestroyOnLoad(gameObject);
-    }
+
     protected override void Update()                                                          
     {
         base.Update();
