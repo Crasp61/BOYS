@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro.EditorUtilities;
 using UnityEngine;
-
+using UnityEngine.UI;
 public class Player : Creature
 {
     private float _horizontal;                                                 //Вот здесь начинается Всё что связано с передвижением(бег,Рвывок,Прыжок)
@@ -29,6 +29,7 @@ public class Player : Creature
     [SerializeField] float wallSlidingSpeed;
 
     private int jumpCount;
+
 
     protected override void Update()                                                          
     {
@@ -105,7 +106,6 @@ public class Player : Creature
         }
         
     }
-
 
     private IEnumerator Dash()                                                          //Методы рывка
     {

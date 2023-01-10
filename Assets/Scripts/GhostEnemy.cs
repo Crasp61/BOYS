@@ -25,15 +25,18 @@ public class GhostEnemy : Enemy
     protected override void Update()
     {
         base.Update();
-        float distToPlayer = Vector2.Distance(transform.position, _playerPosition.position);
+        if (playerObj != null)
+        {
+            float distToPlayer = Vector2.Distance(transform.position, _playerPosition.position);
 
-        if (distToPlayer < _agroDistance)
-        {
-            StartHunting();
-        }
-        else
-        {
-            StopHuntingAndBack();
+            if (distToPlayer < _agroDistance)
+            {
+                StartHunting();
+            }
+            else
+            {
+                StopHuntingAndBack();
+            }
         }
     }
     

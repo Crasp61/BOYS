@@ -15,47 +15,48 @@ public class MeeleEnemy : Enemy
     public Transform _playerPosition;
     [SerializeField] private float _agroDistance;
     public bool movingRight = true;
-    
+    private float distToPlayer;
 
 
 
     protected override void Start()
     {
         base.Start();
-        
     }
     protected override void Update()
     {
         base.Update();
-        float distToPlayer = Vector2.Distance(transform.position, GameObject.FindGameObjectWithTag("Player").transform.position);
-
-        if (distToPlayer < _agroDistance)
+        if (playerObj != null)
         {
-            StartHunting();
-        }
-        else
-        {
-            Patrol();
+            float distToPlayer = Vector2.Distance(transform.position, playerObj.transform.position);
+           
+            if (distToPlayer < _agroDistance)
+            {
+                StartHunting();
+            }
+            else
+            {
+                Patrol();
+            }
         }
     }
 
 
     public void StartHunting()
     {
-        if (EndPlatfom())
-        {
-            transform.position = Vector3.MoveTowards(transform.position, GameObject.FindGameObjectWithTag("Player").transform.position, _movementSpeed * 2 * Time.deltaTime);
-        }
-        if (transform.position.x > GameObject.FindGameObjectWithTag("Player").transform.position.x)
-        {
-            transform.eulerAngles = new Vector3(0, -180, 0);
-        }
-        else
-        {
-            transform.eulerAngles = new Vector3(0, 0, 0);
-        }
 
-
+            if (EndPlatfom())
+            {
+                transform.position = Vector3.MoveTowards(transform.position, playerObj.transform.position, _movementSpeed * 2 * Time.deltaTime);
+            }
+            if (transform.position.x > playerObj.transform.position.x)
+            {
+                transform.eulerAngles = new Vector3(0, -180, 0);
+            }
+            else
+            {
+                transform.eulerAngles = new Vector3(0, 0, 0);
+            }
     }
     public void Patrol()
     {

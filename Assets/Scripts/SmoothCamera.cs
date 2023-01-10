@@ -7,11 +7,14 @@ public class SmoothCamera : MonoBehaviour
     [SerializeField] private Transform targetTransform;
     [SerializeField] private Vector3 offcet;
     [SerializeField] private float smoothing = 1f;
-
-    protected private void Move(float deltaTime)
+    protected GameObject playerObj;
+    protected void Update()
     {
-        var nextPosition = Vector3.Lerp(transform.position, targetTransform.position + offcet, deltaTime * smoothing);
-
-        transform.position = nextPosition;
+        playerObj = GameObject.FindGameObjectWithTag("Player");
+        if (playerObj != null)
+        {
+            var nextPosition = Vector3.Lerp(transform.position, targetTransform.position + offcet, Time.deltaTime * smoothing);
+            transform.position = nextPosition;
+        }
     }
 }

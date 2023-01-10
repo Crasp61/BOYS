@@ -7,7 +7,11 @@ using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
+
+
     private bool onPause = false;
+
+
     public GameObject menu;
     public GameObject mainMenuButton;
     public void StartTheGame()
@@ -47,4 +51,6 @@ public class GameManager : MonoBehaviour
             return;
         }
     }
+
+
 }

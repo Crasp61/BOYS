@@ -15,7 +15,7 @@ public abstract class Creature : MonoBehaviour
     public bool isBleeding = false;
     public bool readyToTakeDamage = true;
     public int bleedCount = 0;
-
+    protected GameObject playerObj;
 
     protected virtual void Start()
     {
@@ -28,8 +28,10 @@ public abstract class Creature : MonoBehaviour
         {
             StartCoroutine(Bleeding());
         }
+
+        playerObj = GameObject.FindGameObjectWithTag("Player");
     }
-    public void TakeDamage(int damage)
+    public  void TakeDamage(int damage)
     {
         _curentHealth -= damage;
         if (_curentHealth <= 0)
