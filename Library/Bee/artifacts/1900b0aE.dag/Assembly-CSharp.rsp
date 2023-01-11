@@ -390,6 +390,7 @@
 "Assets/Scripts/Player.cs"
 "Assets/Scripts/PlayerAttack.cs"
 "Assets/Scripts/RangeWeapon.cs"
+"Assets/Scripts/SaveTheGAme.cs"
 "Assets/Scripts/Scroll.cs"
 "Assets/Scripts/SmoothCamera.cs"
 "Assets/Scripts/TheSircleOFCurse.cs"

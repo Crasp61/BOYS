@@ -50,8 +50,6 @@ public class Player : Creature
 
         Flip();
         slide();
-
-        Debug.Log(_curentHealth);
     }
 
     private void FixedUpdate()

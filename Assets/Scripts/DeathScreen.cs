@@ -6,7 +6,6 @@ public class DeathScreen : MonoBehaviour
 {
     [SerializeField] GameObject panel;
     GameObject playerObj;
-    private bool dethScreenExist;
 
     public void Update()
     {

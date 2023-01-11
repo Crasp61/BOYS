@@ -14,6 +14,7 @@ public class GameManager : MonoBehaviour
 
     public GameObject menu;
     public GameObject mainMenuButton;
+
     public void StartTheGame()
     {
         SceneManager.LoadScene(1);
@@ -51,6 +52,5 @@ public class GameManager : MonoBehaviour
             return;
         }
     }
-
-
 }
+
