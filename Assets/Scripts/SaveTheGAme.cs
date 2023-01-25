@@ -7,6 +7,7 @@ public class SaveTheGAme : MonoBehaviour
 {
     public Transform CurrentPlayerPosition;
     public bool onCheckPoint = false;
+    
     void Update()
     {
 
@@ -28,9 +29,9 @@ public class SaveTheGAme : MonoBehaviour
 
         Transform CurrentPlayerPosition = this.gameObject.transform;
 
-        PlayerPrefs.SetFloat("PosX", CurrentPlayerPosition.position.x); // т.к. автоматической работы 
-        PlayerPrefs.SetFloat("PosY", CurrentPlayerPosition.position.y); // с массивами нет, разбиваем на
-        PlayerPrefs.SetFloat("PosZ", CurrentPlayerPosition.position.z);  // отдельные float и записываем
+        PlayerPrefs.SetFloat("PosX", CurrentPlayerPosition.position.x);
+        PlayerPrefs.SetFloat("PosY", CurrentPlayerPosition.position.y);
+        PlayerPrefs.SetFloat("PosZ", CurrentPlayerPosition.position.z); 
 
         PlayerPrefs.SetFloat("AngX", CurrentPlayerPosition.eulerAngles.x);
         PlayerPrefs.SetFloat("AngY", CurrentPlayerPosition.eulerAngles.y);
@@ -39,15 +40,14 @@ public class SaveTheGAme : MonoBehaviour
 
     public void loadPosition()
     {
-        SceneManager.LoadScene(1);
         Transform CurrentPlayerPosition = this.gameObject.transform;
 
         Vector3 PlayerPosition = new Vector3(PlayerPrefs.GetFloat("PosX"),
                     PlayerPrefs.GetFloat("PosY"), PlayerPrefs.GetFloat("PosZ"));
-        Vector3 PlayerDirection = new Vector3(PlayerPrefs.GetFloat("AngX"), // генерируем новые вектора 
-                    PlayerPrefs.GetFloat("AngY"), 0);  // на основе загруженных данных
+        Vector3 PlayerDirection = new Vector3(PlayerPrefs.GetFloat("AngX"), 
+                    PlayerPrefs.GetFloat("AngY"), 0);
 
-        CurrentPlayerPosition.position = PlayerPosition; // и применяем их
+        CurrentPlayerPosition.position = PlayerPosition;
         CurrentPlayerPosition.eulerAngles = PlayerDirection;
     }
 

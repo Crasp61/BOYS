@@ -10,7 +10,8 @@ public class DeathScreen : MonoBehaviour
     public void Update()
     {
         playerObj = GameObject.FindGameObjectWithTag("Player");
-        if (playerObj == null)
+        if(playerObj != null)
+        if (playerObj.gameObject.GetComponent<Player>()._curentHealth<=0)
         {
             DeathScreenSetActive();
         }

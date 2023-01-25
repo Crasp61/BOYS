@@ -2708,6 +2708,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   menu: {fileID: 1982850885}
   mainMenuButton: {fileID: 645435999}
+  playerObj: {fileID: 2003399126}
 --- !u!114 &519420035
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5881,6 +5882,7 @@ MonoBehaviour:
   isBleeding: 0
   readyToTakeDamage: 1
   bleedCount: 0
+  isDying: 0
   _damage: 5
   _playerLayer:
     serializedVersion: 2
@@ -8199,6 +8201,7 @@ MonoBehaviour:
   isBleeding: 0
   readyToTakeDamage: 1
   bleedCount: 0
+  isDying: 0
   _damage: 0
   playerLayer:
     serializedVersion: 2
@@ -8337,6 +8340,7 @@ GameObject:
   - component: {fileID: 2003399134}
   - component: {fileID: 2003399135}
   - component: {fileID: 2003399136}
+  - component: {fileID: 2003399137}
   m_Layer: 7
   m_Name: Player
   m_TagString: Player
@@ -8597,6 +8601,7 @@ MonoBehaviour:
   isBleeding: 0
   readyToTakeDamage: 1
   bleedCount: 0
+  isDying: 0
   _dashingPower: 80
   _dashingTime: 0.25
   _dashingCoolDown: 0.4
@@ -8670,11 +8675,25 @@ MonoBehaviour:
   m_GameObject: {fileID: 2003399126}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2f10a754c726f6e44a75dd2b19ae173f, type: 3}
+  m_Script: {fileID: 11500000, guid: 2e7fc29738b8dbc48962440e3a6370ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   CurrentPlayerPosition: {fileID: 2003399129}
   onCheckPoint: 0
+  playerObj: {fileID: 2003399126}
+  deathPanel: {fileID: 1619594830}
+--- !u!114 &2003399137
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2003399126}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 946d581354ede0a4aba02b19cfebf32f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &2020935148
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -8962,7 +8981,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 2003399136}
-        m_TargetAssemblyTypeName: SaveTheGAme, Assembly-CSharp
+        m_TargetAssemblyTypeName: SaveThePlayer, Assembly-CSharp
         m_MethodName: loadPosition
         m_Mode: 1
         m_Arguments:

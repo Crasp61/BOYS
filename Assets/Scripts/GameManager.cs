@@ -14,6 +14,7 @@ public class GameManager : MonoBehaviour
 
     public GameObject menu;
     public GameObject mainMenuButton;
+    public GameObject playerObj;
 
     public void StartTheGame()
     {
@@ -38,12 +39,13 @@ public class GameManager : MonoBehaviour
             onPause = true;
             Debug.Log(onPause);
             menu.SetActive(true);
-            mainMenuButton.SetActive(true); 
-
+            mainMenuButton.SetActive(true);
+            playerObj.SetActive(false);
             return;
         }
         if (onPause)
         {
+            playerObj.SetActive(true);
             Time.timeScale = 1f;
             onPause = false;
             Debug.Log(onPause);

@@ -16,7 +16,7 @@ public abstract class Creature : MonoBehaviour
     public bool readyToTakeDamage = true;
     public int bleedCount = 0;
     protected GameObject playerObj;
-
+    public bool isDying = false;
     protected virtual void Start()
     {
         _curentHealth = _maxHealth;
@@ -34,10 +34,17 @@ public abstract class Creature : MonoBehaviour
     public  void TakeDamage(int damage)
     {
         _curentHealth -= damage;
-        if (_curentHealth <= 0)
+        if (_curentHealth <= 0 && !isDying)
         {
-            Destroy(gameObject);
+            StartCoroutine(Dying());
         }
+    }
+
+    private IEnumerator Dying()
+    {
+        isDying = true;
+        yield return new WaitForSeconds(1);
+        gameObject.SetActive(false);
     }
 
     public IEnumerator Bleeding()
